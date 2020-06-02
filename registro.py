@@ -1,6 +1,5 @@
 import PySimpleGUI as sg 
 
-
 #Armando una columna
 columna_1 =  [  [sg.Text('Nombre')],
                 [sg.Text('Apellido')],
@@ -42,13 +41,13 @@ class Jugador:
 def main():   
     window = sg.Window('Registro de ScrabbleAR').Layout(dise) 
     event, values = window.read()
-    base_datos={}
     i = True
     while i == True:
         if event == 'Ok' :
             if values['correo'] is not base_datos:
                 if values['nick'] is not base_datos:
                     values['nick'] = Jugador(values['pas'],values['nombre'],values['apellido'],values['nacionalidad'],values['correo'])
+                    values['nick'].jugar()
                     window.close()
                 else: 
                     sg.SystemTray.notify('Error', 'el nick ingresado ya existe')

@@ -1,0 +1,5 @@
+def quienComienza(): # Elije al azar que jugador comienza.
+	if random.randint(0, 1) == 0: 
+	        return 'La computadora' 
+	 else:  
+		return 'El jugador

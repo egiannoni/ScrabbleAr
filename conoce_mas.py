@@ -1,10 +1,15 @@
 import PySimpleGUI as sg  
-  
+
+def readme():
+    f=open('README.md','r')
+    texto=f.read()
+    f.close()
+    return texto
+
+
 def main():
-    diseño= [[sg.Text('''Somos un grupo de alumnes
-    que está desarrollando
-    un juego mientras aprendemos y nos divertimos
-    ojala te guste a vos tambien''')]]
+    var_texto=readme()
+    diseño= [[sg.Text(var_texto)]]
     window = sg.Window('Conocenos  ').layout(diseño)
     window.read()
 

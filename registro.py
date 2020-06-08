@@ -1,6 +1,7 @@
 import PySimpleGUI as sg 
+import json
 
-#Armando una columna
+############# ARMADO DE LA COLUMNA DE LA INTERFAZ #############
 columna_1 =  [  [sg.Text('Nombre')],
                 [sg.Text('Apellido')],
                 [sg.Text('Nacionalidad')],
@@ -24,30 +25,42 @@ dise = [      [sg.Text('Datos Personales')],
                 [sg.Column(columna_3), sg.Column(columna_4)],
                 [ sg.Ok(), sg.Cancel()] ] 
 
-class Jugador: 
+############# GENERACION DE JUGADORES #############
+class jugador: 
     
     def __init__(self, pas, nombre,apellido,nacionalidad,correo):
         
-        self.pas = pas
-        self.nombre = nombre
-        self.apellido = apellido
-        self.nacionalidad = nacionalidad
-        self.correo = correo
-        
-    def jugar(self):
-           print ("se llama {} {},tiene la contraseña {}".format( self.nombre, self.apellido, self.pas))
-           
+        self._pas = pas
+        self._nombre = nombre
+        self._apellido = apellido
+        self._nacionalidad = nacionalidad
+        self._correo = correo
 
+#############  APERTURA DE BASE DE DATOS #############        
+def abro_base():
+    f=open('base_datos','a+')
+    y=json.loads(f)
+    return y
+
+############# CARGA DE DATOS #############
+def agrego_a_base(x,y):
+    y=json.loads(str(x))
+    y.close()
+    
+      
+############# PRINCIPAL #############
 def main():   
     window = sg.Window('Registro de ScrabbleAR').Layout(dise) 
     event, values = window.read()
     i = True
     while i == True:
+        base=abro_base()
         if event == 'Ok' :
-            if values['correo'] is not base_datos:
-                if values['nick'] is not base_datos:
-                    values['nick'] = Jugador(values['pas'],values['nombre'],values['apellido'],values['nacionalidad'],values['correo'])
-                    values['nick'].jugar()
+            if values['correo'] is not base:
+                if values['nick'] is not base:
+                    jug=values['nick']
+                    jug= jugador(values['pas'],values['nombre'],values['apellido'],values['nacionalidad'],values['correo'])
+                    agrego_a_base(jug)
                     window.close()
                 else: 
                     sg.SystemTray.notify('Error', 'el nick ingresado ya existe')
@@ -57,7 +70,6 @@ def main():
         else:
             i == False        
             window.close()
-    values['nick'].jugar()
 
 
 if __name__ == '__main__':

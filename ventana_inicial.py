@@ -17,8 +17,8 @@ diseño = [  [sg.Text('Scrabble Ar', size=(15, 1), justification='center', font=
 window = sg.Window(' ').layout(diseño)
 
 while True:
-    archivo = open("base_datos", "a+")       ## ABRO EL ARCHIVO de la base de datos
-    datos = json.load(archivo)
+    # archivo = open("base_datos", "a+")       ## ABRO EL ARCHIVO de la base de datos
+    # datos = json.load(archivo)
     event,value=window.read()
     if event == None:
         break
@@ -29,9 +29,18 @@ while True:
     if event == 'Registrarse':
         registro.main()
     if event == ' Iniciar Sesion  ':
+        break
     #     ## este es un loop que tiene que evaluar si existe el nick ver si la contraseña es igual
     #     ## a la que tiene el usuario y recien ahi cerrar la ventana de inicio y abrir el menu principal        
-        if value['nick'] in base_datos:  
-            if value['pass'] == nick_contraseña:
-                window.close()
-             pantalla_principal.main()
+        # if value['nick'] in base_datos:  
+        #     if value['pass'] == nick_pass:
+        #         window.close()
+        #         pantalla_principal.main()
+
+        
+        
+        
+        
+        
+        
+        

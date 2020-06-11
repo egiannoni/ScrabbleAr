@@ -27,22 +27,29 @@ botones_del_menu = [['&Archivo', archivo], ['A&yuda', ayuda]]
 def botones_especiales(button):
     (i, j) = button
     a=' '
-    key=' '
+    valor='simple'
     color = 'gray'
-    if i == j or i + j == 14:
-        color = 'red'
-        a='x2'
-        key='Valedoble'
+    if i in {7} and j in {7}:
+        color = 'yellow'
+        a='C'
     s = set((i, j))
     if s == {0, 3} or s == {0,11} or s == {3, 14} or s == {3, 14} or s == {11, 14}:
-        color = 'green'
-    if s == {2, 6} or s == {2, 8} or s == {3, 7} or s == {6, 12} or s == {7, 11} or s == {8, 12}:
-        color = 'green'
-    if i in {6, 8} and j in {6, 8}:
+        color = 'red'
+        a='x2'
+        valor='vale_doble'
+    if s == {2, 6} or s == {2, 8} or s == {3, 7} or s == {6, 12} or s == {7, 10} or s == {8, 12}:
+        color = 'red'
+        a='x2'
+        valor='vale_doble'
+    if i in {5, 9} and j in {5, 9}:
         color = 'blue'
+        a='x3'
+        valor='vale_triple'
     if s == {1, 5} or s == {1, 9} or s == {5, 13} or s == {9, 13}:
-        color = 'blue'
-    return color,a,key
+        color = 'green'
+        a='/2'
+        valor='vale_mitad'
+    return color, a, valor
 
 ######### Armando una columna
     
@@ -50,7 +57,7 @@ columna_1=[]
 for i in range(15):
     fila = []
     for j in range(15):
-        color,a = botones_especiales((i, j))
+        color,a,valor = botones_especiales((i, j))
         fila.append(sg.Button( a , size=(2,1), key=(i,j), pad=(0,0), button_color=(None, color)))
     columna_1.append(fila)
     
@@ -71,7 +78,7 @@ layout=[[sg.Menu(botones_del_menu)],
 
 window = sg.Window('Juguemos', layout) 
 event,values = window.read()
-
+print(values['key'])
 
 
 

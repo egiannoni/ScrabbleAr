@@ -1,9 +1,5 @@
-# -*- coding: utf-8 -*-
-"""
-Created on Wed Jun 24 14:59:29 2020
-
-@author: Victoria
-"""
+import random
+import Configuracion 
 
 class Atril:
     
@@ -19,10 +15,9 @@ class Atril:
     def __init__(self, bolsa):
         self.bolsa = bolsa
         
-    def tableros(self):
+    def TableroUsuario(self):
         """Reparte 7 letras a usuario y 7 a pc, quita esas letras de bolsa"""
         letras_usuario=[]
-        letras_pc=[]
         for i in range(7):
              letra=random.choice(self.bolsa)
              letras_usuario.append(letra)
@@ -30,6 +25,9 @@ class Atril:
              a = self.bolsa.index(letra)
              del(self.bolsa[a])
         return letras_usuario
+    
+    def TableroPc (self):
+        letras_pc=[]
         for i in range(7):
              letra=random.choice(self.bolsa)
              letras_pc.append(letra)
@@ -41,7 +39,7 @@ class Atril:
     def num_letras_quedan_enbolsa(self):
         """me dice cuantas letras quedan todavía en la bolsa"""
         """recordar que estamos asumiendo bolsa=lista, cambiar pertinentemente de hacer falta"""
-        return len(self.bolsa)            
+        return len(self.bag)            
             
             
     

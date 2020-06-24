@@ -1,7 +1,7 @@
 import pickle
 
 #############  APERTURA DE BASE DE DATOS #############
-def abro_base(nombre_archivo):
+def AbroBase(nombre_archivo):
     try:
         with open(nombre_archivo , 'rb') as f:
             y = pickle.load(f)
@@ -12,7 +12,7 @@ def abro_base(nombre_archivo):
     return y
 
 ############# CARGA DE DATOS #############
-def agrego_a_base(nombre_archivo, datos):
+def CargoBase(nombre_archivo, datos):
     with open(nombre_archivo, 'ab+') as f:
         pickle.dump(datos, f)
     f.close()

@@ -1,30 +1,33 @@
 import PySimpleGUI as sg 
-import random
- 
-################ CONTENIDO #####################
-bolsa =['A','B','C','D','E','F','G','H','I',
-          'J','K','L','M','N','Ñ','O','P','Q',
-          'R','S','T','U','V','W','X','Y','Z']
+import random 
 
-letras_usuario=[]
-letras_pc=[]
-for i in range(7):
-     letra=random.choice(bolsa)
-     letras_usuario.append(letra)
-for i in range(7):
-     letra=random.choice(bolsa)
-     letras_pc.append(letra)
+############### MODULOS ############################
+#bolsa{ letra: [cantidad,valor]}  por ahora tenemos listas pero creemos que mejor seria un diccionario
 
-print(letras_usuario)
-print(letras_pc)
+bolsa=['A'*11,'B'*3,'C'*4,'D'*4,'E'*11,'F'*2,'G'*2,'H'*2,'I'*6,
+       'J'*2,'K'*1,'L'*6,'M'*4,'N'*5,'Ñ'*1,'O'*8,'P'*3,'Q'*1,
+       'R'*6,'S'*7,'T'*4,'U'*6,'V'*2,'W'*1,'X'*1,'Y'*1,'Z'*1]
 
-############### INTERFAZ ############################
+def quien_empieza():
+    if random.randint(0, 1) == 0:
+        return 'pc'
+    else:
+        return 'usuario'
 
-archivo = ['&Nuevo', '&Guardar', '&Cargar', '&Salir']
-ayuda = ['&Ver reglas', '&Acerca de ScrabbleAR']
-botones_del_menu = [['&Archivo', archivo], ['A&yuda', ayuda]]
+def tableros(x):    
+    letras_usuario=[]
+    letras_pc=[]
+    for i in range(7):
+         letra=random.choice(x)
+         letras_usuario.append(letra)
+    return letras_usuario
+    for i in range(7):
+         letra=random.choice(x)
+         letras_pc.append(letra)
+    return letras_pc
 
-def botones_especiales(button):
+
+def botones_especiales(button): #funcion que da colores y valore especiales a algunos botonos
     (i, j) = button
     a=' '
     valor='simple'
@@ -51,8 +54,12 @@ def botones_especiales(button):
         valor='vale_mitad'
     return color, a, valor
 
+############### INTERFAZ ############################
+archivo = ['&Nuevo', '&Guardar', '&Cargar', '&Salir']
+ayuda = ['&Ver reglas', '&Acerca de ScrabbleAR']
+botones_del_menu = [['&Archivo', archivo], ['A&yuda', ayuda]]
+
 ######### Armando una columna
-    
 columna_1=[]
 for i in range(15):
     fila = []
@@ -77,9 +84,21 @@ layout=[[sg.Menu(botones_del_menu)],
 
 
 window = sg.Window('Juguemos', layout) 
-event,values = window.read()
-print(values['key'])
 
+event,values = window.read()
+
+
+##### PROGRAMA PRINCIPAL
+letras_usuario,letras_pc=tableros(bolsa)
+empieza= quien_empieza()
+cantidad_fichas=len(bolsa)
+puntaje_jugador=0
+puntaje_pc=0
+while cantidad_fichas !=0 or puntaje_jugador =< 300 or puntaje_pc =< 300 :   #Los 300son provisorios 
+    if empieza == pc:
+        ....
+    else: 
+        ....
 
 
 

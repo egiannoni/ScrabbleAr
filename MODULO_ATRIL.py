@@ -41,7 +41,7 @@ class Atril:
     def num_letras_quedan_enbolsa(self):
         """me dice cuantas letras quedan todavía en la bolsa"""
         """recordar que estamos asumiendo bolsa=lista, cambiar pertinentemente de hacer falta"""
-        return len(self.bag)            
+        return len(self.bolsa)            
             
             
     

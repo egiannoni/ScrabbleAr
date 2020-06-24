@@ -4,8 +4,8 @@ class Jugador:
     jugadores_todos={}
     #quiero crear un dic que sea clave nick valor puntaje para despues poder sacar el ranking.
     def todos_los_jugadores(cls):
-            jugador.jugadores_todos[get.nick]=get._puntaje
-            return (jugador.jugadores_todos)
+            Jugador.jugadores_todos[Jugador.get_nick]=Jugador.get_puntaje
+            return (Jugador.jugadores_todos)
 
 
     def __init__(self, pas,nick,nombre,apellido,nacionalidad,correo):
@@ -41,16 +41,14 @@ class Jugador:
 
 
 def ranking(self):
-    for clave,valor in  jugadores_todos.items():
+    for clave,valor in  Jugador.jugadores_todos.items():
         print("{} tiene {} puntos".format(clave,valor))
 
-nico=jugador('344','nico','nicolas','perez','argentino','nico@hotmail.com')
-euge=jugador('55535','euge','eugenia','giannoni','argentina','euge@hotmail.com')
-coni=jugador('er54','coni','constanza','gonzales','argentina','coni@gmail.com')
+nico=Jugador('344','nico','nicolas','perez','argentino','nico@hotmail.com')
+euge=Jugador('55535','euge','eugenia','giannoni','argentina','euge@hotmail.com')
+coni=Jugador('er54','coni','constanza','gonzales','argentina','coni@gmail.com')
 
-print(jugador.jugadores_todos)
-
-
+print(Jugador.jugadores_todos)
 
 
 

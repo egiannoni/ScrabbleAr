@@ -5,9 +5,10 @@ Created on Wed Jun 24 13:39:50 2020
 @author: Victoria
 """
 
-import pattern.es 
-from pattern.es import parse, split
-#dejo los dos import anteriores para recordar de revisar que estén en el código maestro
+#recordar hacer los siguientes importar en el "código maestro"
+#import pattern.es 
+#from pattern.es import parse, split
+
 
 class Palabra:
     def __init__(self, palabra, location, player, direction, board):
@@ -17,75 +18,12 @@ class Palabra:
         self.direction = direction.lower()
         self.board = board
 
-    def revisa_palabra(self):
-        #Revisa palabra para ver si existe en base de datos, y que la ubicación respeta ciertos aspectos
-        
-        
-        global round_number, players
-        palabra_score = 0
-        global dictionary
-        if "dictionary" not in globals():
-            dictionary = open("dic.txt").read().splitlines()
-
-        current_board_ltr = ""
-        needed_tiles = ""
-        blank_tile_val = ""
-
-        #Assuming that the player is not skipping the turn:
-        if self.palabra != "":         
-
-            #Raises an error if the palabra being played is not in the official scrabble dictionary (dic.txt).
-            if self.palabra not in dictionary:
-                return "Please enter a valid dictionary palabra.\n"
-            #Raises an error if the player does not have the correct tiles to play the palabra.
-            for letter in needed_tiles:
-                if letter not in self.player.get_rack_str() or self.player.get_rack_str().count(letter) < needed_tiles.count(letter):
-                    return "You do not have the tiles for this palabra\n"
-             #Ensures that first turn of the game will have the palabra placed at (7,7).
-            if round_number == 1 and players[0] == self.player and self.location != [7,7]:
-                return "The first turn must begin at location (7, 7).\n"
-            return True
-
- 
-    def calculate_palabra_score(self):
-        #Calculates the score of a palabra, allowing for the impact by premium squares.
-        global LETTER_VALUES, premium_spots
-        palabra_score = 0
-        for letter in self.palabra:
-            for spot in premium_spots:
-                if letter == spot[0]:
-                    if spot[1] == "TLS":
-                        palabra_score += LETTER_VALUES[letter] * 2
-                    elif spot[1] == "DLS":
-                        palabra_score += LETTER_VALUES[letter]
-            palabra_score += LETTER_VALUES[letter]
-        for spot in premium_spots:
-            if spot[1] == "TWS":
-                palabra_score *= 3
-            elif spot[1] == "DWS":
-                palabra_score *= 2
-        self.player.increase_score(palabra_score)
-
-    def set_palabra(self, palabra):
-        self.palabra = palabra.upper()
-
-    def set_location(self, location):
-        self.location = location
-
-    def set_direction(self, direction):
-        self.direction = direction
-
-    def get_palabra(self):
-        return self.palabra
-
-##############################################################################
-##############################################################################    
-    
 #Este código logra verificar a partir de 7 letras dadas al azar qué palabras se pueden formar y que pertenezcan
 # a una base de datos de palabras (en nuestro caso sust, adj o verbos de Pattern), a modo de verificación de funcionamiento/
 #ejemplificación se pone un conjunto de 7 letras y un set de palabras predefinido 
 
 def letra_cuenta(palabra): 
+    """Cuenta las letras en la palabra"""
     dict = {} 
     for i in palabra: 
         dict[i] = dict.get(i, 0) + 1
@@ -205,3 +143,66 @@ def dict_puntaje_sustantivos(sustantivos):
         diccionario_puntajes_sust[sustantivo] = palabra_puntaje
     return  diccionario_puntajes_sust
 
+
+
+******************************************************************************
+    def revisa_palabra(self):
+        #Revisa palabra para ver si existe en base de datos, y que la ubicación respeta ciertos aspectos
+        
+        
+        global round_number, players
+        palabra_score = 0
+        global dictionary
+        if "dictionary" not in globals():
+            dictionary = open("dic.txt").read().splitlines()
+
+        current_board_ltr = ""
+        needed_tiles = ""
+        blank_tile_val = ""
+
+        #Assuming that the player is not skipping the turn:
+        if self.palabra != "":         
+
+            #Raises an error if the palabra being played is not in the official scrabble dictionary (dic.txt).
+            if self.palabra not in dictionary:
+                return "Please enter a valid dictionary palabra.\n"
+            #Raises an error if the player does not have the correct tiles to play the palabra.
+            for letter in needed_tiles:
+                if letter not in self.player.get_rack_str() or self.player.get_rack_str().count(letter) < needed_tiles.count(letter):
+                    return "You do not have the tiles for this palabra\n"
+             #Ensures that first turn of the game will have the palabra placed at (7,7).
+            if round_number == 1 and players[0] == self.player and self.location != [7,7]:
+                return "The first turn must begin at location (7, 7).\n"
+            return True
+
+ 
+    def calculate_palabra_score(self):
+        #Calculates the score of a palabra, allowing for the impact by premium squares.
+        global LETTER_VALUES, premium_spots
+        palabra_score = 0
+        for letter in self.palabra:
+            for spot in premium_spots:
+                if letter == spot[0]:
+                    if spot[1] == "TLS":
+                        palabra_score += LETTER_VALUES[letter] * 2
+                    elif spot[1] == "DLS":
+                        palabra_score += LETTER_VALUES[letter]
+            palabra_score += LETTER_VALUES[letter]
+        for spot in premium_spots:
+            if spot[1] == "TWS":
+                palabra_score *= 3
+            elif spot[1] == "DWS":
+                palabra_score *= 2
+        self.player.increase_score(palabra_score)
+
+    def set_palabra(self, palabra):
+        self.palabra = palabra.upper()
+
+    def set_location(self, location):
+        self.location = location
+
+    def set_direction(self, direction):
+        self.direction = direction
+
+    def get_palabra(self):
+        return self.palabra

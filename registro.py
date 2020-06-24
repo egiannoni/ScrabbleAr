@@ -1,4 +1,4 @@
-import PySimpleGUI as sg 
+import PySimpleGUI as sg
 import json
 
 ############# ARMADO DE LA COLUMNA DE LA INTERFAZ #############
@@ -23,52 +23,53 @@ dise = [      [sg.Text('Datos Personales')],
                 [sg.Column(columna_1), sg.Column(columna_2)],
                 [sg.Text('Datos de Juego ')],
                 [sg.Column(columna_3), sg.Column(columna_4)],
-                [ sg.Ok(), sg.Cancel()] ] 
+                [ sg.Ok(), sg.Cancel()] ]
 
 ############# GENERACION DE JUGADORES #############
-class jugador: 
-    
+class jugador:
+
     def __init__(self, pas, nombre,apellido,nacionalidad,correo):
-        
+
         self._pas = pas
         self._nombre = nombre
         self._apellido = apellido
         self._nacionalidad = nacionalidad
         self._correo = correo
 
-#############  APERTURA DE BASE DE DATOS #############        
-def abro_base():
-    f=open('base_datos','a+')
-    y=json.loads(f)
+#############  APERTURA DE BASE DE DATOS #############
+def abro_base(nombre):
+    with open(nombre ,'a+') as f:
+         y= json.load(f)
     return y
 
+
 ############# CARGA DE DATOS #############
-def agrego_a_base(x,y):
-    y=json.loads(str(x))
-    y.close()
-    
-      
+def agrego_a_base(y, archdatos):
+    with open(y,'a+') as archdatos:
+        json.dump(d,archdatos)
+    archdatos.close()
+
+
 ############# PRINCIPAL #############
-def main():   
-    window = sg.Window('Registro de ScrabbleAR').Layout(dise) 
+def main():
+    window = sg.Window('Registro de ScrabbleAR').Layout(dise)
     event, values = window.read()
     i = True
     while i == True:
-        base=abro_base()
+        base=abro_base('base_datos.json')
         if event == 'Ok' :
             if values['correo'] is not base:
                 if values['nick'] is not base:
-                    jug=values['nick']
                     jug= jugador(values['pas'],values['nombre'],values['apellido'],values['nacionalidad'],values['correo'])
-                    agrego_a_base(jug)
+                    agrego_a_base('base_datos.json',jug)
                     window.close()
-                else: 
+                else:
                     sg.SystemTray.notify('Error', 'el nick ingresado ya existe')
-                
+
             else:
-               sg.SystemTray.notify('Error', 'el correo ingresado ya existe')  
+               sg.SystemTray.notify('Error', 'el correo ingresado ya existe')
         else:
-            i == False        
+            i == False
             window.close()
 
 

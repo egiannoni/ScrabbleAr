@@ -1,7 +1,7 @@
 import random
 import Configuracion 
 
-class Atril:
+class Atril():
     
 #formato bolsa utilizado para selccionar fichas
 

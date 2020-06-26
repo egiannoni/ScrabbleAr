@@ -165,3 +165,15 @@ class Palabra():
 ##############################################################################
 ##############################################################################
 
+#El siguiente código verifica la existencia de la palabra ingresada por el usuario en 
+#la base de datos, en este caso en sust, verb y/o adj de pattern.es segun corresponda 
+#por nivel elegido.
+#utilizo lista_palabras_posibles que es el return de palabras_posibles
+#cambiar el siguiente código según convenga
+ 
+    def verifica_palabra(self, palabra_ingresada):
+        if palabra_ingresada in lista_palabras_posibles:
+            return "La palabra ingresada existe en la base de datos"
+        else:
+            return "La palabra ingresada no existe en la base de datos, pruebe otra palabra"
+        

@@ -1,19 +1,32 @@
 import random
-import Configuracion 
+from configuracion import Configuracion
+
 
 class Atril():
     
-#formato bolsa utilizado para selccionar fichas
-
-# bolsa=['A'*11,'B'*3,'C'*4,'D'*4,'E'*11,'F'*2,'G'*2,'H'*2,'I'*6,
-#        'J'*2,'K'*1,'L'*6,'M'*4,'N'*5,'Ñ'*1,'O'*8,'P'*3,'Q'*1,
-#        'R'*6,'S'*7,'T'*4,'U'*6,'V'*2,'W'*1,'X'*1,'Y'*1,'Z'*1]
-
-#tener en consideración que para que este código funcione necesito en el código que 
-#llame a esta clase importar random    
+#hay que llamar de configuracion a getCantidadDeFichasPorLetra (diccionario al 
+#que llamo "bolsa") donde
+#self._cantidad_de_fichas_por_letra = cantidades y cantidades es de tipo: 
+  # cantidades = {1: ['Y', 'K', 'LL', 'Ñ', 'Q', 'RR', 'W', 'X', 'Z'],
+  #           2: ['G', 'P', 'F', 'H', 'V', 'J'], 3: ['M', 'B'],
+  #           4: ['R', 'L', 'T', 'C', 'D'], 5: ['N'], 6: ['I', 'U'],
+  #           7: ['S'], 8: ['O'], 11: ['A', 'E']}
+  
+#es conveniente pasarlo de formato, para eso:  
+    cantidades_formato_amigo = {value: key for key in cantidades for value in cantidades[key]}
+    temporal_cantidades=[]
+    for key, value in cantidades_formato_amigo.items():
+        for i in range(value):
+            temporal_cantidades.append(key)    
+    #temporal_cantidades es una lista de tipo ['Y','K','G','G',...] donde cada elemento es una letra
+    #temporal_cantidades es mi bolsa a partir de donde voy a elegir siete fichas y sacarlas en la repartida  
+    
+ #######Ahora si la clase#########   
 
     def __init__(self, bolsa):
-        self.bolsa = bolsa
+        self.bolsa = temporal_cantidades        
+        #verificar si esto esta bien, ver comentarios de abajo a modo guia para interpretar 
+        #que se busca con este código
         
     def TableroUsuario(self):
         """Reparte 7 letras a usuario y 7 a pc, quita esas letras de bolsa"""
@@ -21,7 +34,6 @@ class Atril():
         for i in range(7):
              letra=random.choice(self.bolsa)
              letras_usuario.append(letra)
-             #método válido si bolsa es lista, modificar pertinentemente si bolsa es diccionario
              a = self.bolsa.index(letra)
              del(self.bolsa[a])
         return letras_usuario
@@ -31,7 +43,6 @@ class Atril():
         for i in range(7):
              letra=random.choice(self.bolsa)
              letras_pc.append(letra)
-              #método válido si bolsa es lista, modificar pertinentemente si bolsa es diccionario
              a = self.bolsa.index(letra)
              del(self.bolsa[a])
         return letras_pc
@@ -41,5 +52,42 @@ class Atril():
         """recordar que estamos asumiendo bolsa=lista, cambiar pertinentemente de hacer falta"""
         return len(self.bag)            
             
+#BORRAR UNA VEZ QUE SE CONECTÓ EL CODIGO DE ARRIBA CON LOS OTROS MODULOS DE FORMA
+#CORRECTA    
+#código de prueba de lo que está arriba para verificar que anda: 
+# import random
+
+# cantidades = {
+#             1: ['Y', 'K', 'LL', 'Ñ', 'Q', 'RR', 'W', 'X', 'Z'],
+#             2: ['G', 'P', 'F', 'H', 'V', 'J'],
+#             3: ['M', 'B'],
+#             4: ['R', 'L', 'T', 'C', 'D'],
+#             5: ['N'],
+#             6: ['I', 'U'],
+#             7: ['S'],
+#             8: ['O'],
+#             11: ['A', 'E']
+#         }
+
+
+# cantidades_formato_amigo = {value: key for key in cantidades for value in cantidades[key]}
+# temporal_cantidades=[]
+# for key, value in cantidades_formato_amigo.items():
+#     for i in range(value):
+#         temporal_cantidades.append(key)
+# def TableroUsuario():
+#         """Reparte 7 letras a usuario y 7 a pc, quita esas letras de bolsa"""
+#         letras_usuario=[]
+#         for i in range(7):
+#               letra=random.choice(temporal_cantidades)
+#               letras_usuario.append(letra)
+#               #método válido si bolsa es lista, modificar pertinentemente si bolsa es diccionario
+#               a = temporal_cantidades.index(letra)
+#               del(temporal_cantidades[a])
+#         return letras_usuario
+
+# list_letras = TableroUsuario()
+# print(list_letras) #letras usuarios
+# print(temporal_cantidades) #letras restantes en la bolsa menos las siete de la mano      
             
     

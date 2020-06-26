@@ -5,8 +5,7 @@ Created on Wed Jun 24 13:39:50 2020
 @author: Victoria
 """
 import pattern.es
-import Configuracion 
-
+from configuracion import Configuracion
 
 #AYUDA PLEASE!acá tengo dudas de como vincular las variables, dsp uso "puntajes", ver que 
 #programé para puntajes en diccionario tal que puntajes = {'letra':'puntos'}
@@ -21,9 +20,9 @@ puntajes = puntaje.getPuntajeDeCadaFicha
 
 class Palabra():
     def __init__(self, palabra, basepalabras, seleccion_letras):
-        self.palabra = palabra.upper()
-        self.basepalabras = basepalabras
-        self.seleccion_letras = seleccion_letras
+        self._palabra = palabra.upper()
+        self._basepalabras = basepalabras
+        self._seleccion_letras = seleccion_letras
        
 #Este código logra verificar a partir de 7 letras dadas al azar qué palabras se pueden formar y que pertenezcan
 # a una base de datos de palabras (en nuestro caso sust, adj o verbos de Pattern), a modo de verificación de funcionamiento/
@@ -33,7 +32,7 @@ class Palabra():
         """Cuenta las letras en las palabras de la base de datos tal que si encuentra "cumbia", 
         por ejemplo, arma: {'c':1,'u':1,'m':1,'b':1,'i':1,'a':1} """
         dict = {} 
-        for i in self.palabra: 
+        for i in self._palabra: 
             dict[i] = dict.get(i, 0) + 1
         return dict 
   
@@ -43,12 +42,12 @@ class Palabra():
         existan en la base de datos (que es sust, adj y/o verb de pattern.es según el nivel)"""
         #"basepalabras" son las palabras en pattern posibles según el nivel de complegidad
         #"seleccion_letras" son las 7 letras que se repartieron de froma random (tanto a pc como a usuario) 
-        for palabra in self.basepalabras: 
+        for palabra in self._basepalabras: 
             flag = 1
-            cuenta = letra_cuenta(palabra) 
+            cuenta = palabra.letra_cuenta() 
             lista_palabras_posibles=[]
             for key in cuenta: 
-                if key not in self.seleccion_letras: 
+                if key not in self._seleccion_letras: 
                     flag = 0
                 else: 
                     if self.seleccion_letras.count(key) != cuenta[key]: 
@@ -83,10 +82,17 @@ class Palabra():
 #por dar un ejemplo.   
 
     def calc_puntaje(self):
-        """Calcula el puntaje a una palabra dada a partir de diccionario de puntos por letra."""
+        """Calcula el puntaje a una palabra dada a partir de diccionario de puntos por letra. Cambia
+        formato de diccionario de puntos por letra que obtiene de configuracion.py a conveniencia
+        para el cálculo"""
+        #hay que traer de cofiguracion la funcion getPuntajeDeCadaFicha,
+        #donde el formato de self._puntaje_de_cada_ficha = puntajes es tipo
+        #puntajes = {puntos:[letras], puntos:[letras], etc}
+        #paso el formato a puntaje_formato_amigo= {"letra1":puntos, "letra2":puntos, etc}
         palab_puntaje = 0
+        puntaje_formato_amigo = {value: key for key in puntajes for value in puntajes[key]}
         for letra in self.palabra:
-            palab_puntaje += puntajes[letra]
+            palab_puntaje += puntaje_formato_amigo[letra]
         return palab_puntaje
 
     def list_verbos():
@@ -136,7 +142,7 @@ class Palabra():
         """Crear diccionarios de los verbos con los puntajes según puntaje de cada letra."""
         diccionario_puntajes_verb = {}
         for verbo in verbos:
-            palabra_puntaje = calc_puntaje(verbo)
+            palabra_puntaje = verbo.calc_puntaje()
             diccionario_puntajes_verb[verbo] = palabra_puntaje
         return  diccionario_puntajes_verb
     
@@ -144,7 +150,7 @@ class Palabra():
         """Crear diccionarios de los adjetivos con los puntajes."""
         diccionario_puntajes_adj = {}
         for adjetivo in adjetivos:
-            palabra_puntaje = calc_puntaje(adjetivo)
+            palabra_puntaje = adjetivo.calc_puntaje()
             diccionario_puntajes_adj[adjetivo] = palabra_puntaje
         return  diccionario_puntajes_adj
     
@@ -152,7 +158,7 @@ class Palabra():
         """Crear diccionarios de los sustantivos con los puntajes."""
         diccionario_puntajes_sust = {}
         for sustantivo in sustantivos:
-            palabra_puntaje = calc_puntaje(sustantivo)
+            palabra_puntaje = sustantivo.calc_puntaje()
             diccionario_puntajes_sust[sustantivo] = palabra_puntaje
         return  diccionario_puntajes_sust
 

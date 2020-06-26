@@ -1,7 +1,6 @@
-import PySimpleGUI as sg 
-import json 
+import PySimpleGUI as sg
 import conoce_mas
-import ranking 
+import ranking
 import registro
 import pantalla_principal
 
@@ -31,16 +30,8 @@ while True:
     if event == ' Iniciar Sesion  ':
         break
     #     ## este es un loop que tiene que evaluar si existe el nick ver si la contraseña es igual
-    #     ## a la que tiene el usuario y recien ahi cerrar la ventana de inicio y abrir el menu principal        
-        # if value['nick'] in base_datos:  
+    #     ## a la que tiene el usuario y recien ahi cerrar la ventana de inicio y abrir el menu principal
+        # if value['nick'] in base_datos:
         #     if value['pass'] == nick_pass:
         #         window.close()
         #         pantalla_principal.main()
-
-        
-        
-        
-        
-        
-        
-        

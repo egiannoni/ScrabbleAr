@@ -13,12 +13,12 @@ diseño = [  [sg.Text('Scrabble Ar', size=(15, 1), justification='center', font=
             [sg.T(' ' * 30)],
             [sg.Button('Conoce mas del juego'),sg.T(' ' * 5), sg.Button('Nuestro Ranking')] ]
 
-window = sg.Window(' ').layout(diseño)
+window1 = sg.Window(' ').layout(diseño)
 
 while True:
     # archivo = open("base_datos", "a+")       ## ABRO EL ARCHIVO de la base de datos
     # datos = json.load(archivo)
-    event,value=window.read()
+    event,value=window1.read()
     if event == None:
         break
     if event == 'Conoce mas del juego':

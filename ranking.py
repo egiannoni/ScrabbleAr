@@ -1,7 +1,6 @@
 import PySimpleGUI as sg
 from MODULO_BASEDEDATOS import AbroBase
-import MODULO_JUGADORES
-
+from MODULO_JUGADORES import ListaJugadores
 
 def ventana(lista):
     diseño=[ [sg.Listbox(lista, size=(20, 12), key='ranking')],
@@ -10,9 +9,9 @@ def ventana(lista):
     window3.finalize ()
 
 def main():
+    MostrarJugadores=ListaJugadores.jugadores
     while True :
-        base=AbroBase('base_datos.pkl')
-        rank=ListaJugadores.ranking()
+        rank=ListaJugadores.mostrar_informacion(MostrarJugadores)
         ventana(rank)
         event, values = window3.read()
         if event == 'ok':
@@ -22,3 +21,7 @@ def main():
 
 if __name__ == '__main__':
     main()
+
+
+#### Todavia no muestra el ranking porque la funcion ranking no esta definida
+#### quiero que me muestre aunque sea la lista de jugadores.

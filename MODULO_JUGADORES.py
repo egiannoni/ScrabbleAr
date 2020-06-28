@@ -32,6 +32,10 @@ class Jugador():
     def agregar_puntos(self, cantidad_puntos):
         self._puntaje += cantidad_puntos
 
+    def __str__(self):
+        return " + {} {} usa el nick {} y tiene {} puntos.".format(self._nombre, self._apellido, self._nick, self._puntaje)
+
+
 class ListaJugadores():
     jugadores = []
 
@@ -64,17 +68,14 @@ class ListaJugadores():
         del fichero
 
     def mostrar_informacion(self):
-        print("La información del fichero externo es la siguiente:")
+        lista=[]
         for jugador in self.jugadores:
-            print(jugador.__str__())
+            lista.append(jugador.__str__())
+        return lista
 
+    # Esta funcion tdv no anda #
     def ranking(self):
         lista=[]
         for clave,valor in  self.jugadores.items():
             lista.append("{} tiene {} puntos".format(clave,valor))
         return lista
-
-
-nico=Jugador('344','nico','nicolas','perez','argentino','nico@hotmail.com')
-euge=Jugador('55535','euge','eugenia','giannoni','argentina','euge@hotmail.com')
-coni=Jugador('er54','coni','constanza','gonzales','argentina','coni@gmail.com')

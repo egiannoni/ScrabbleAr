@@ -169,7 +169,7 @@ class Palabra():
 #la base de datos, en este caso en sust, verb y/o adj de pattern.es segun corresponda 
 #por nivel elegido.
 #utilizo lista_palabras_posibles que es el return de palabras_posibles
-#cambiar el siguiente código según convenga
+#cambiar el siguiente código según convenga 
  
     def verifica_palabra(self, palabra_ingresada):
         if palabra_ingresada in lista_palabras_posibles:

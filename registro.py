@@ -29,8 +29,8 @@ dise = [      [sg.Text('Datos Personales')],
 
 ############# PRINCIPAL #############
 def main():
-    window = sg.Window('Registro de ScrabbleAR').Layout(dise)
-    event, values = window.read()
+    window2 = sg.Window('Registro de ScrabbleAR').Layout(dise)
+    event, values = window2.read()
     while True:
         base=AbroBase('base_datos.pkl')
         if event == 'Ok' :
@@ -38,7 +38,6 @@ def main():
                 if values['nick'] not in base:
                     jug= Jugador(values['pas'],values['nick'] ,values['nombre'],values['apellido'],values['nacionalidad'],values['correo'])
                     CargoBase('base_datos.pkl',jug)
-                    window.close()
                 else:
                     sg.SystemTray.notify('Error', 'el nick ingresado ya existe')
 
@@ -48,7 +47,7 @@ def main():
             break
         if event == 'Cancel':
             break
-    window.close()
+    window2.close()
 
 
 if __name__ == '__main__':

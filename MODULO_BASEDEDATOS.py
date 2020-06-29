@@ -1,24 +1,22 @@
 import pickle
 
 #############  APERTURA DE BASE DE DATOS #############
-def AbroBase(nombre_archivo):
+def AbroBase (nombre_archivo):
+    # Lectura en modo binario
+    fichero = open(nombre_archivo, "ab+")
+    fichero.seek(0)  # Desplazamos cursor al principio
     try:
-        with open(nombre_archivo , 'rb') as f:
-            y = pickle.load(f)
-    except 'EOFError':
-        with open(nombre_archivo , 'xb') as f:
-            y = pickle.load(f)
+        y = pickle.load(fichero)  # Cargamos información
+        return y
+    except EOFError:
+        print("El fichero está vacío.")  # Para la primera vez que abrimos
+    finally:
+        fichero.close()
+        del fichero
 
-    return y
 
 ############# CARGA DE DATOS #############
 def CargoBase(nombre_archivo, datos):
     with open(nombre_archivo, 'ab+') as f:
         pickle.dump(datos, f)
     f.close()
-
-
-#    except 'FileNotFoundError':
-#        print('se levanto la excepcion')
-#        with open(nombre_archivo, 'x') as f:
-#           y= pickle.load(f, encoding="ASCII", errors="strict", buffers=None)

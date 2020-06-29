@@ -1,4 +1,4 @@
-import PySimpleGUI as sg  
+import PySimpleGUI as sg
 
 def readme():
     f=open('README.md','r')
@@ -10,11 +10,9 @@ def readme():
 def main():
     var_texto=readme()
     diseño= [[sg.Text(var_texto)]]
-    window = sg.Window('Conocenos  ').layout(diseño)
-    window.read()
+    windowConoceMas = sg.Window('Conocenos  ').layout(diseño)
+    windowConoceMas.read()
 
 
 if __name__ == '__main__':
     main()
-
-

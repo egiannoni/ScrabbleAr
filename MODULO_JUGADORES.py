@@ -1,13 +1,6 @@
+import pickle
 ############ GENERACION DE JUGADORES #############
-class Jugador:
-
-    jugadores_todos={}
-    #quiero crear un dic que sea clave nick valor puntaje para despues poder sacar el ranking.
-    def todos_los_jugadores(cls):
-            Jugador.jugadores_todos[Jugador.get_nick]=Jugador.get_puntaje
-            return (Jugador.jugadores_todos)
-
-
+class Jugador():
     def __init__(self, pas,nick,nombre,apellido,nacionalidad,correo):
 
         self._pas = pas
@@ -39,22 +32,50 @@ class Jugador:
     def agregar_puntos(self, cantidad_puntos):
         self._puntaje += cantidad_puntos
 
-
-def ranking(self):
-    for clave,valor in  Jugador.jugadores_todos.items():
-        print("{} tiene {} puntos".format(clave,valor))
-
-nico=Jugador('344','nico','nicolas','perez','argentino','nico@hotmail.com')
-euge=Jugador('55535','euge','eugenia','giannoni','argentina','euge@hotmail.com')
-coni=Jugador('er54','coni','constanza','gonzales','argentina','coni@gmail.com')
-
-print(Jugador.jugadores_todos)
+    def __str__(self):
+        return " + {} {} usa el nick {} y tiene {} puntos.".format(self._nombre, self._apellido, self._nick, self._puntaje)
 
 
+class ListaJugadores():
+    jugadores = []
 
-#        try:
-#               puntos[key]= int(x[key][0])
-#                rank = sorted(puntos.items(),key=lambda jugador: jugador[1],reverse=True)
-#        except KeyError :
-#            rank = "no hay jugadores que mostrar aun"
-#        return rank
+    def __init__(self):
+        fichero = open("prueba.pkl", "ab+")
+        fichero.seek(0)  # Desplazamos cursor al principio
+
+        try:
+            self.jugadores = pickle.load(fichero)  # Cargamos información
+            print("Se cargaron {} personas.".format(len(self.jugadores)))
+        except EOFError:
+            print("El fichero está vacío.")  # Para la primera vez que abrimos
+        finally:
+            fichero.close()
+            del fichero
+            return self.jugadores
+
+    def agregar_jugador(self, jugador):
+        self.jugadores.append(jugador)
+        self.guardar_jugadores()
+
+    def mostrar_jugador(self):
+        for jugador in self.jugadores:
+            print(jugador.__str__())
+
+    def guardar_jugadores(self):
+        fichero = open("prueba.pkl", "wb")
+        pickle.dump(self.jugadores, fichero)
+        fichero.close()
+        del fichero
+
+    def mostrar_informacion(self):
+        lista=[]
+        for jugador in self.jugadores:
+            lista.append(jugador.__str__())
+        return lista
+
+    # Esta funcion tdv no anda #
+    def ranking(self):
+        lista=[]
+        for clave,valor in  self.jugadores.items():
+            lista.append("{} tiene {} puntos".format(clave,valor))
+        return lista

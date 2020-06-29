@@ -41,12 +41,12 @@
 class Configuracion():
     def __init__(self, nivel):
         # ¿Hay una superclase implícita en Python como en Java?
-        super().__init__()
-        self._tiempo_de_juego = setTiempoDeJuego(nivel)
-        self._nivel = setNivel(nivel)
-        self._conjunto_de_palabras = setConjuntoDePalabras(nivel)
-        self._puntaje_de_cada_ficha = setPuntajeDeCadaFicha()
-        self._cantidad_de_fichas_por_letra = setCantidadDeFichasPorLetra()
+        # super().__init__()
+        self._tiempo_de_juego = self.setTiempoDeJuego(nivel)
+        self._nivel = self.setNivel(nivel)
+        self._conjunto_de_palabras = self.setConjuntoDePalabras(nivel)
+        self._puntaje_de_cada_ficha = self.setPuntajeDeCadaFicha()
+        self._cadena_de_letras = self.setCadenaDeLetras()
     
     def getTiempoDeJuego(self):
         return self._tiempo_de_juego
@@ -76,28 +76,27 @@ class Configuracion():
         return self._puntaje_de_cada_ficha
     def setPuntajeDeCadaFicha(self):
         puntajes = {
-            1: ['A', 'E', 'O', 'S', 'I', 'U', 'N', 'L', 'R', 'T'],
-            2: ['C', 'D', 'G'],
-            3: ['M', 'B', 'P'],
-            4: ['F', 'H', 'V', 'Y'],
-            6: ['J'],
-            8: ['K', 'LL', 'Ñ', 'Q', 'RR', 'W', 'X'],
-            10: ['Z']
+            'A': 1, 'B': 3, 'C': 2, 'D': 2, 'E': 1, 'F': 4, 'G': 2, 'H': 4, 'I': 1, 'J': 6, 'K': 8,
+            '1': 4, 'LL': 8, 'M': 3, 'N': 1, 'Ñ': 8, 'O': 1, 'P': 3, 'Q': 8, 'R': 1, 'RR': 8, 'S': 1,
+            'T': 1, 'U': 1, 'V': 4, 'W': 8, 'X': 8, 'Y': 4, 'Z': 10
         }
         self._puntaje_de_cada_ficha = puntajes
 
-    def getCantidadDeFichasPorLetra(self):
-        return self._cantidad_de_fichas_por_letra
-    def setCantidadDeFichasPorLetra(self):
+    def getCadenaDeLetras(self):
+        return self._cadena_de_letras
+    def setCadenaDeLetras(self):
         cantidades = {
-            1: ['Y', 'K', 'LL', 'Ñ', 'Q', 'RR', 'W', 'X', 'Z'],
-            2: ['G', 'P', 'F', 'H', 'V', 'J'],
-            3: ['M', 'B'],
-            4: ['R', 'L', 'T', 'C', 'D'],
-            5: ['N'],
-            6: ['I', 'U'],
-            7: ['S'],
-            8: ['O'],
-            11: ['A', 'E']
+            'A': 11, 'B': 3, 'C': 4, 'D': 4, 'E': 11, 'F': 2, 'G': 2, 'H': 2, 'I': 6, 'J': 2, 'K': 1,
+            'L': 4, 'LL': 1, 'M': 3, 'N': 5, 'Ñ': 1, 'O': 8, 'P': 2, 'Q': 1, 'R': 4, 'RR': 1, 'S': 7,
+            'T': 4, 'U': 6, 'V': 2, 'W': 1, 'X': 1, 'Y': 1, 'Z': 1
         }
-        self._cantidad_de_fichas_por_letra = cantidades
+        cadena = ''
+        for k, v in cantidades.items():
+            for i in range(v):
+                cadena += k
+        print(cadena)
+        self._cadena_de_letras = cadena
+
+# SIGUIENTES DOS LÍNEAS SON DE PRUEBA: POR QUÉ RETORNA NONE???
+c = Configuracion('fácil')
+print(c.getCadenaDeLetras())

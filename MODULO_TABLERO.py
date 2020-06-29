@@ -1,16 +1,13 @@
-import PysimpleGUI as sg
+import PySimpleGUI as sg
 from MODULO_ATRIL import Atril
 
-letras_pc=Atril.TableroPc()
-letras_usuario= Atril.TableroUsuario()
-
 class Tablero:
+    letras_pc=Atril.TableroPc()
+    letras_usuario= Atril.TableroUsuario()
     def __init__(self):
         #Creates a 2-dimensional array that will serve as the board, as well as adds in the premium squares.
         self.board = [["   " for i in range(15)] for j in range(15)]
         self.BotonesConCaracteres()
-        self.board[7][7] = " * "
-
 
     def GetBoard(self):
         ############### INTERFAZ ############################
@@ -23,8 +20,8 @@ class Tablero:
         for i in range(15):
             fila = []
             for j in range(15):
-                color,a,valor = BotonesEspeciales((i, j))
-                fila.append(sg.Button( a , size=(2,1), key=(i,j), pad=(0,0), button_color=(None, color)))
+                color = BotonesEspeciales((i, j))
+                fila.append(sg.Button( self.board , size=(2,1), key=(i,j), pad=(0,0), button_color=(None, color)))
                 columna_1.append(fila)
 
 

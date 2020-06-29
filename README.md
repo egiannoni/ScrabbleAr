@@ -17,9 +17,9 @@ publicados con licencias libres.
 
 Requisitos del Sistema:
 
-+ Python 3.7
-    + Paquete Patter Version 2.6
-    + Paquete PySimpleGUI Version 4.20
++ Python 3.6.10
+    + Paquete Pattern Version 3.6
+    + Paquete PySimpleGUI Version 4.21
     
 ----------------------------------------------------------------------------------------------------
 Ejecucion del programa - Guia para el usuario 

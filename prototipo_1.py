@@ -1,5 +1,5 @@
 # ##########################################################################################
-# El presente código sería compactable con clases y métodos que lo factoricen,             #
+# El presente código sería mejorable y compactable con clases y métodos que lo factoricen, #
 # sin embargo por el momento es un primer prototipo que muestra elementos que al           #
 # momento se están considerando para la versión final de la iterfaz de juego, así como la  #
 # puntuación de una palabra insertada por el usuario de acuerdo a las pautas               #
@@ -29,7 +29,7 @@ BUTTON_PADDING = 1
 BUTTON_SIZE = BUTTON_WIDTH, BUTTON_HEIGHT
 LETTER_POINTS = {
             'A': 1, 'B': 3, 'C': 2, 'D': 2, 'E': 1, 'F': 4, 'G': 2, 'H': 4, 'I': 1, 'J': 6, 'K': 8,
-            '1': 4, 'LL': 8, 'M': 3, 'N': 1, 'Ñ': 8, 'O': 1, 'P': 3, 'Q': 8, 'R': 1, 'RR': 8, 'S': 1,
+            'L': 4, 'LL': 8, 'M': 3, 'N': 1, 'Ñ': 8, 'O': 1, 'P': 3, 'Q': 8, 'R': 1, 'RR': 8, 'S': 1,
             'T': 1, 'U': 1, 'V': 4, 'W': 8, 'X': 8, 'Y': 4, 'Z': 10
         }
 LETTERS_POOL = {

@@ -1,4 +1,4 @@
-import PysimpleGUI as sg
+import PySimpleGUI as sg
 from MODULO_ATRIL import Atril
 
 class Tablero:

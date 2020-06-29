@@ -6,7 +6,7 @@
 ScrabbleAR es un juego basado en el popular juego Scrabble, en el que se intenta ganar puntos
 mediante la construcción de palabras sobre un tablero.
 
-Desarrollado por Norberto Chaar, Eugenia Giannoni y Victoria Olivera Craig. 
+Desarrollado por Eugenia Giannoni, Norberto Chaar y Victoria Olivera Craig. 
 
 nombre de les integrantes, la forma de ejecutar cada aplicación y cualquier
 consideración especial para su ejecución, por ejemplo, requerimientos.

@@ -1,5 +1,5 @@
 # ##########################################################################################
-# El presente código sería mejorable y compactable con clases y métodos que lo factoricen, #
+# El presente código sería compactable con clases y métodos que lo factoricen,             #
 # sin embargo por el momento es un primer prototipo que muestra elementos que al           #
 # momento se están considerando para la versión final de la iterfaz de juego, así como la  #
 # puntuación de una palabra insertada por el usuario de acuerdo a las pautas               #

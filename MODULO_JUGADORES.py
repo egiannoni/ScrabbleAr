@@ -1,9 +1,11 @@
 import pickle
 ############ GENERACION DE JUGADORES #############
 class Jugador():
+    """  Creates the gamers from information input on the registration """
+
     def __init__(self, pas,nick,nombre,apellido,nacionalidad,correo):
 
-        self._pas = pas
+        self._pasword = pasword
         self._nick = nick
         self._nombre = nombre
         self._apellido = apellido
@@ -18,7 +20,7 @@ class Jugador():
         return self._nick
 
     def get_pas (self):
-        return self._pas
+        return self._pasword
 
     def get_apellido (self):
         return self._apellido

@@ -3,33 +3,38 @@ from MODULO_BASEDEDATOS import AbroBase, CargoBase
 from MODULO_JUGADORES import Jugador
 
 ############# ARMADO DE LA COLUMNA DE LA INTERFAZ #############
-columna_1 =  [  [sg.Text('Nombre')],
-                [sg.Text('Apellido')],
-                [sg.Text('Nacionalidad')],
-		            [sg.Text('Correo')] ]
+column_1 =  [  [sg.Text('Nombre')],
+               [sg.Text('Apellido')],
+               [sg.Text('Nacionalidad')],
+		       [sg.Text('Correo')]
+            ]
 
-columna_2 = [   [sg.InputText(key='nombre',size=(30, 1))],
-                [sg.InputText(key='apellido',size=(30, 1))],
-                [sg.InputText(key='nacionalidad',size=(30, 1))],
-		    [sg.InputText(key='correo',size=(30, 1))]  ]
+column_2 = [   [sg.InputText(key='nombre',size=(30, 1))],
+               [sg.InputText(key='apellido',size=(30, 1))],
+               [sg.InputText(key='nacionalidad',size=(30, 1))],
+		       [sg.InputText(key='correo',size=(30, 1))]
+            ]
 
-columna_3 =  [  [sg.Text('Nick Name')],
-                [sg.Text('Pass')] ]
+column_3 =  [  [sg.Text('Nick Name')],
+                [sg.Text('Pasword')]
+            ]
 
-columna_4 = [   [sg.InputText(key='nick',size=(30, 1))],
-                [sg.InputText(key='pas',size=(30, 1))]  ]
+column_4 = [   [sg.InputText(key='nick',size=(30, 1))],
+                [sg.InputText(key='pas',size=(30, 1))]
+            ]
 
 #Armo el diseño de la interface
-dise = [      [sg.Text('Datos Personales')],
-                [sg.Column(columna_1), sg.Column(columna_2)],
+layout = [      [sg.Text('Datos Personales')],
+                [sg.Column(column_1), sg.Column(column_2)],
                 [sg.Text('Datos de Juego ')],
-                [sg.Column(columna_3), sg.Column(columna_4)],
-                [ sg.Ok(), sg.Cancel()] ]
+                [sg.Column(column_3), sg.Column(column_4)],
+                [ sg.Ok(), sg.Cancel()]
+        ]
 
 
-############# PRINCIPAL #############
+############# PRINCIPAL LOOP #############
 def main():
-    window2 = sg.Window('Registro de ScrabbleAR').Layout(dise)
+    window2 = sg.Window('Registro de ScrabbleAR', layout)
     event, values = window2.read()
     while True:
         base=AbroBase('base_datos.pkl')

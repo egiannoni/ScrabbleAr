@@ -10,7 +10,7 @@ def AbroBase (nombre_archivo):
         y = pickle.load(fichero)  # Cargamos información
         return y
     except EOFError:
-        fichero = open(nombre_archivo, "x`") # Para la primera vez que abrimos
+        fichero = open(nombre_archivo, "x") # Para la primera vez que abrimos
         y = pickle.load(fichero)  # Cargamos información
     finally:
         fichero.close()

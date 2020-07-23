@@ -5,7 +5,7 @@ import registro
 import pantalla_principal
 
 
-diseño = [  [sg.Text('Scrabble Ar', size=(15, 1), justification='center', font=("Times", "24", "bold italic"),text_color='black')],
+layout = [  [sg.Text('Scrabble Ar', size=(15, 1), justification='center', font=("Times", "24", "bold italic"),text_color='black')],
             [sg.T(' ' * 7),sg.InputText('Nick',size=(30, 1),text_color='gray',key='nick')],
             [sg.T(' ' * 7),sg.InputText('Pass',size=(30, 1),text_color='gray',key='pass',password_char='*')],
             [sg.T(' ' * 20),sg.Button(' Iniciar Sesion  ')],
@@ -13,11 +13,9 @@ diseño = [  [sg.Text('Scrabble Ar', size=(15, 1), justification='center', font=
             [sg.T(' ' * 30)],
             [sg.Button('Conoce mas del juego'),sg.T(' ' * 5), sg.Button('Nuestro Ranking')] ]
 
-window1 = sg.Window(' ').layout(diseño)
+window1 = sg.Window('ScrabbleAr ',layout)
 
 while True:
-    # archivo = open("base_datos", "a+")       ## ABRO EL ARCHIVO de la base de datos
-    # datos = json.load(archivo)
     event,value=window1.read()
     if event == None:
         break
@@ -29,9 +27,18 @@ while True:
         registro.main()
     if event == ' Iniciar Sesion  ':
         break
-    #     ## este es un loop que tiene que evaluar si existe el nick ver si la contraseña es igual
-    #     ## a la que tiene el usuario y recien ahi cerrar la ventana de inicio y abrir el menu principal
-        # if value['nick'] in base_datos:
-        #     if value['pass'] == nick_pass:
-        #         window.close()
-        #         pantalla_principal.main()
+        #nickingresado= value['nick']
+        #paswingresada= value['pasword']
+        #base=AbroBase('base_datos.pkl')
+        #try:
+        #    if nickingresado in base:
+        #        pasword= Jugador.get_pass()
+        #        try:
+        #            if paswingresada == pasword:
+        #                window1.close()
+        #                juego.main()
+        #        except:
+        #            sg.SystemTray.notify('Error', 'La contraseña ingresada no coincide ')
+        #
+        #except:
+        #    sg.SystemTray.notify('Error', 'el nick ingresado NO existe.')

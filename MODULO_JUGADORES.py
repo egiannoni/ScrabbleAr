@@ -5,7 +5,7 @@ class Jugador():
 
     def __init__(self, pas,nick,nombre,apellido,nacionalidad,correo):
 
-        self._pasword = pasword
+        self._pasword = pas
         self._nick = nick
         self._nombre = nombre
         self._apellido = apellido
@@ -64,7 +64,7 @@ class ListaJugadores():
             print(jugador.__str__())
 
     def guardar_jugadores(self):
-        fichero = open("prueba.pkl", "wb")
+        fichero = open("base_datos.pkl", "wb")
         pickle.dump(self.jugadores, fichero)
         fichero.close()
         del fichero
@@ -75,9 +75,3 @@ class ListaJugadores():
             lista.append(jugador.__str__())
         return lista
 
-    # Esta funcion tdv no anda #
-    def ranking(self):
-        lista=[]
-        for clave,valor in  self.jugadores.items():
-            lista.append("{} tiene {} puntos".format(clave,valor))
-        return lista

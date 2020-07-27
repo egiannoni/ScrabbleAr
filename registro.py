@@ -1,6 +1,5 @@
 import PySimpleGUI as sg
-from MODULO_BASEDEDATOS import AbroBase, CargoBase
-from MODULO_JUGADORES import Jugador
+from MODULO_JUGADORES import Jugador, ListaJugadores
 
 ############# ARMADO DE LA COLUMNA DE LA INTERFAZ #############
 column_1 =  [  [sg.Text('Nombre')],
@@ -37,17 +36,9 @@ def main():
     window2 = sg.Window('Registro de ScrabbleAR', layout)
     event, values = window2.read()
     while True:
-        base=AbroBase('base_datos.pkl')
         if event == 'Ok' :
-            if values['correo'] not in base:
-                if values['nick'] not in base:
-                    jug= Jugador(values['pas'],values['nick'] ,values['nombre'],values['apellido'],values['nacionalidad'],values['correo'])
-                    CargoBase('base_datos.pkl',jug)
-                else:
-                    sg.SystemTray.notify('Error', 'el nick ingresado ya existe')
-
-            else:
-               sg.SystemTray.notify('Error', 'el correo ingresado ya existe')
+                jug= Jugador(values['pas'],values['nick'] ,values['nombre'],values['apellido'],values['nacionalidad'],values['correo'])
+                ListaJugadores.agregar_jugador(jug)
         if event == None:
             break
         if event == 'Cancel':

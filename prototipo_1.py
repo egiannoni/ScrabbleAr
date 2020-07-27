@@ -1,20 +1,4 @@
-# ##########################################################################################
-# El presente código sería mejorable y compactable con clases y métodos que lo factoricen, #
-# sin embargo por el momento es un primer prototipo que muestra elementos que al           #
-# momento se están considerando para la versión final de la iterfaz de juego, así como la  #
-# puntuación de una palabra insertada por el usuario de acuerdo a las pautas               #
-# que corresponden a la 1era entrega del trabajo.                                          #
-# En cuanto a funcionalidad, la muestra actual pretende contemplar el ingreso de la        # 
-# 1era palabra por el usuario y su puntuación.                                             #
-# ##########################################################################################
-# Fecha de la primera entrega: semana del 16 de junio. En esta entrega se evaluará:
-# ● un primer prototipo: donde se visualice el tablero y las demás componentes del
-# juego. No es necesario que estén funcionando todos los componentes,
-# simplemente para visualizar la interfaz de usuario propuesta;
-# ● el ingreso de una palabra al tablero y su puntuación.
-# Fecha de la segunda entrega: semana del 13 de julio. En esta entrega se evaluará el
-# trabajo completo.
-# ----------------------------------------------------------------------------------------
+
 import PySimpleGUI as sg
 import random
 import time
@@ -40,21 +24,30 @@ LETTERS_POOL = {
 
 def colorize_buttons(button):
     (i, j) = button
+    a=' '
+    value='simple'
     color = 'gray'
-    if i == j or i + j == 14:
-        color = 'red'
-    if i in {0, 7, 14} and j in {0, 7, 14}:
+    if i in {7} and j in {7}:
         color = 'yellow'
+        a='C'
     s = set((i, j))
     if s == {0, 3} or s == {0,11} or s == {3, 14} or s == {3, 14} or s == {11, 14}:
-        color = 'green'
-    if s == {2, 6} or s == {2, 8} or s == {3, 7} or s == {6, 12} or s == {7, 11} or s == {8, 12}:
-        color = 'green'
-    if i in {6, 8} and j in {6, 8}:
+        color = 'red'
+        a='x2'
+        value='vale_doble'
+    if s == {2, 6} or s == {2, 8} or s == {3, 7} or s == {6, 12} or s == {7, 10} or s == {8, 12}:
+        color = 'red'
+        a='x2'
+        value='vale_doble'
+    if i in {5, 9} and j in {5, 9}:
         color = 'blue'
+        a='x3'
+        value='vale_triple'
     if s == {1, 5} or s == {1, 9} or s == {5, 13} or s == {9, 13}:
-        color = 'blue'
-    return color
+        color = 'green'
+        a='/2'
+        value='vale_mitad'
+    return color, a, value
 
 def valid(word):
     return len(word) >= 2 and len(word) <= 7 and word in pattern.es.lexicon.keys() and word in pattern.es.spelling.keys()
@@ -103,41 +96,41 @@ def main():
     letter_matrix = [[['', colorize_buttons((i, j))] for i in range(BOARD_HEIGHT)] for j in range(BOARD_WIDTH)]
     user_total_score = 0
     ai_total_score = 0
-    # Theme
-    sg.theme('Dark Teal 12')
-    # Layout
-    # AI letter array column layout
-    top_column_layout_1 = [
-        [sg.Button(key=i + ARRAY, button_text='?', size=BUTTON_SIZE, pad=((BUTTON_PADDING, BUTTON_PADDING), (16, BUTTON_PADDING)), enable_events=True, disabled=True) for i in range(ARRAY)]
-    ]
-    # Clock column layout
-    top_column_layout_2 = [
-        [sg.Text('Tiempo de Juego', key='-CLOCK_TEXT-')],
-        [sg.Text(key='-CLOCK-', size=(8, 2), font=('Helvetica', 11), justification='center')]
-    ]
-    # AI letter array and clock layout
-    layout = [
-        [sg.Column(top_column_layout_1), sg.VerticalSeparator(key='-TOP_V_SEPARATOR-'), sg.Column(top_column_layout_2)],
-        [sg.Text('_' * ((BUTTON_WIDTH + BUTTON_PADDING) * BOARD_WIDTH + 4), key='-TOP_H_SEPARATOR-')]
-    ]
-    # Board layout
-    layout += [
-        [sg.Button(key=(i, j), button_text='{}'.format(letter_matrix[i][j][0]), button_color=(None, letter_matrix[i][j][1]), size=BUTTON_SIZE, pad=(BUTTON_PADDING, BUTTON_PADDING), enable_events=True) for i in range(BOARD_WIDTH)] for j in range(BOARD_HEIGHT)
-    ]
-    # User letter array column layout
-    bottom_column_layout_1 = [
-        [sg.Button(key=i, button_text=user_letter_array[i], size=BUTTON_SIZE, pad=((BUTTON_PADDING, BUTTON_PADDING), (16, BUTTON_PADDING)), enable_events=True) for i in range(ARRAY)]
-    ]
-    # Score and Exit column layout
-    bottom_column_layout_2 = [
-        [sg.Button('Puntuar', key='-SCORE-', pad=((0, BUTTON_PADDING), (30, BUTTON_PADDING))),
-            sg.Exit('Salir', pad=((70, BUTTON_PADDING), (30, BUTTON_PADDING)))]
-    ]
-    # User and exit layout
-    layout += [
-        [sg.Text('_' * ((BUTTON_WIDTH + BUTTON_PADDING) * BOARD_WIDTH + 4), key='-BOTTOM_H_SEPARATOR-')],
-        [sg.Column(bottom_column_layout_1), sg.VerticalSeparator(key='-BOTTOM_V_SEPARATOR-'), sg.Column(bottom_column_layout_2)]
-    ]
+
+    ############### INTERFAZ ############################
+
+    archivo = ['&Nuevo', '&Guardar', '&Cargar', '&Salir']
+    ayuda = ['&Ver reglas', '&Acerca de ScrabbleAR']
+    menu_buttons = [['&Archivo', archivo], ['A&yuda', ayuda]]
+
+    ######### Armando una columna
+
+    column_1=[]
+    for i in range(15):
+        row = []
+        for j in range(15):
+            r,a,value = colorize_buttons((i, j))
+            row.append(sg.Button( a , size=(2,1), key=(i,j), pad=(0,0), button_color=(None, r)))
+        column_1.append(row)
+
+    column_2 = [   [sg.Text(' ' * 3),sg.Button('Reponer')],
+                    [sg.Text(' ' * 22)],
+                    [sg.Text('Tiempo de Juego',justification='center', key='-CLOCK_TEXT-')],
+                    [sg.Text(key='-CLOCK-', size=(8, 2), font=('Helvetica', 11), justification='center')],
+                    [sg.Text(' ' * 22)],
+                    [sg.Text(' ' * 22)],
+                    [sg.Button ('Pasar turno', key='pasarturno')]
+                ]
+
+    #Armo el diseño de la interface
+    layout=[[sg.Menu(menu_buttons)],
+            [sg.Text('Tablero Pc '), sg.Text('Puntaje', key='puntajepc')],
+            [sg.Button(key=i + 7, button_text='?', size=(2,1), pad=((1,1), (16, 1)), enable_events=True, disabled=True) for i in range(7)],
+            [sg.Column(column_1), sg.Column(column_2)],
+            [sg.Text('Tablero Jugador '), sg.Text('Puntaje', key= 'puntajejugador')],
+            [sg.Button(key=i, button_text=user_letter_array[i], size=(2,1), pad=((1,1), (16, 1)), enable_events=True) for i in range(7)]
+            ]
+
     # Window and auxiliary variables
     window = sg.Window('ScrabbleAR', layout, grab_anywhere=True)
     letter_aux = ''
@@ -172,7 +165,7 @@ def main():
                 user_letter_array[event] = ''
                 window[event].Update('')
                 user_letter_array_positions_updated.append(event)
-            # Puts the letter back in the array 
+            # Puts the letter back in the array
             elif user_letter_array[event] == '' and letter_aux != '':
                 user_letter_array[event] = letter_aux
                 letters_in_use.remove(letter_aux)
@@ -191,7 +184,7 @@ def main():
                 pos = event[0], event[1]
                 letter_matrix_positions_updated.append(event)
                 first_pick = False
-            # If it's not the first pick, restrains the placements to exclusively rightwards or downwards 
+            # If it's not the first pick, restrains the placements to exclusively rightwards or downwards
             elif (event[0] - 1 == pos[0] and event[1] == pos[1]) or (event[0] == pos[0] and event[1] - 1 == pos[1]):
                 if moves_horizontally and event[0] - 1 == pos[0] and event[1] == pos[1]:
                     moves_vertically = False
@@ -206,7 +199,7 @@ def main():
                 elif moves_horizontally and not moves_vertically:
                     try:
                         window[(pos[0] + 1, pos[1])].Update('{}'.format(letter_aux))
-                        window.Refresh()                
+                        window.Refresh()
                         time.sleep(0.1)
                         window[(pos[0] + 1, pos[1])].Update('')
                     except AttributeError:
@@ -233,7 +226,7 @@ def main():
             elif moves_horizontally and not moves_vertically:
                 try:
                     window[(pos[0] + 1, pos[1])].Update('{}'.format(letter_aux))
-                    window.Refresh()                
+                    window.Refresh()
                     time.sleep(0.1)
                     window[(pos[0] + 1, pos[1])].Update('')
                 except AttributeError:

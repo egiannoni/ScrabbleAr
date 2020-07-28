@@ -35,10 +35,11 @@ def main():
 
     window2 = sg.Window('Registro de ScrabbleAR', layout)
     event, values = window2.read()
+    lista_jugadores=ListaJugadores()
     while True:
         if event == 'Ok' :
                 jug= Jugador(values['pas'],values['nick'] ,values['nombre'],values['apellido'],values['nacionalidad'],values['correo'])
-                Jugador.ListaJugadores.agregar_jugador(jug)
+                lista_jugadores.agregar_jugador(jug)
         if event == None:
             break
         if event == 'Cancel':

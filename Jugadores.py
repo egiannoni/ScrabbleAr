@@ -1,6 +1,6 @@
 import pickle
 
-class Jugador():
+class Jugador:
     """  Creates the gamers from information input on the registration """
 
     def __init__(self, pas,nick,nombre,apellido,nacionalidad,correo):
@@ -38,7 +38,7 @@ class Jugador():
         return " + {} {} usa el nick {} y tiene {} puntos.".format(self._nombre, self._apellido, self._nick, self._puntaje)
 
 
-class ListaJugadores():
+class ListaJugadores:
     jugadores = []
 
     def __init__(self):
@@ -53,7 +53,6 @@ class ListaJugadores():
         finally:
             fichero.close()
             del fichero
-            return self.jugadores
 
     def agregar_jugador(self, jugador):
         self.jugadores.append(jugador)

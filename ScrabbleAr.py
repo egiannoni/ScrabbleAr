@@ -1,8 +1,8 @@
 import PySimpleGUI as sg
-import conoce_mas
-import ranking
-import registro
-import pantalla_principal
+import ConoceMas
+import Ranking
+import Registro
+import Game
 
 
 layout = [  [sg.Text('Scrabble Ar', size=(15, 1), justification='center', font=("Times", "24", "bold italic"),text_color='black')],
@@ -20,13 +20,13 @@ while True:
     if event == None:
         break
     if event == 'Conoce mas del juego':
-        conoce_mas.main()
+        ConoceMas.main()
     if event == 'Nuestro Ranking':
-        ranking.main()
+        Ranking.main()
     if event == 'Registrarse':
-        registro.main()
+        Registro.main()
     if event == ' Iniciar Sesion  ':
-        break
+        Game.main()
         #nickingresado= value['nick']
         #paswingresada= value['pasword']
         #base=AbroBase('base_datos.pkl')

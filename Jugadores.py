@@ -1,5 +1,5 @@
 import pickle
-############ GENERACION DE JUGADORES #############
+
 class Jugador():
     """  Creates the gamers from information input on the registration """
 
@@ -74,4 +74,3 @@ class ListaJugadores():
         for jugador in self.jugadores:
             lista.append(jugador.__str__())
         return lista
-

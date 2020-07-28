@@ -1,4 +1,5 @@
 import pickle
+import operator
 
 class Jugador:
     """  Creates the gamers from information input on the registration """
@@ -15,6 +16,9 @@ class Jugador:
 
     def get_nombre (self):
         return self._nombre
+
+    def get_puntos(self):
+        return self._puntaje
 
     def get_nick (self):
         return self._nick
@@ -49,7 +53,7 @@ class ListaJugadores:
             self.jugadores = pickle.load(fichero)  # Cargamos información
             print("Se cargaron {} personas.".format(len(self.jugadores)))
         except EOFError:
-            print("El fichero está vacío.")  # Para la primera vez que abrimos
+            print("El fichero está vacío.")
         finally:
             fichero.close()
             del fichero
@@ -69,7 +73,13 @@ class ListaJugadores:
         del fichero
 
     def mostrar_informacion(self):
-        lista=[]
+        lista={}
+        listaordenada=[]
         for jugador in self.jugadores:
-            lista.append(jugador.__str__())
-        return lista
+            nick=jugador.get_nick()
+            puntos=jugador.get_puntos()
+            lista[nick]=puntos
+        jugadores_sort = sorted(lista.items(), key=operator.itemgetter(1), reverse= True)
+        for nick in enumerate(jugadores_sort):
+            listaordenada.append(nick[1][0], ':', lista[nick[1][0]])
+        return listaordenada

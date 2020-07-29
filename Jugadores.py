@@ -48,8 +48,8 @@ class ListaJugadores:
         fichero.seek(0)  # Desplazamos cursor al principio
 
         try:
-            self.jugadores = pickle.load(fichero)  # Cargamos información
-            print("Se cargaron {} personas.".format(len(self.jugadores)))
+            self._jugadores = pickle.load(fichero)  # Cargamos información
+            print("Se cargaron {} personas.".format(len(self._jugadores)))
         except EOFError:
             print("El fichero está vacío.")
         finally:
@@ -60,16 +60,16 @@ class ListaJugadores:
         return self._jugadores
     
     def agregar_jugador(self, jugador):
-        self.jugadores.append(jugador)
+        self._jugadores.append(jugador)
         self.guardar_jugadores()
 
     def mostrar_jugador(self):
-        for jugador in self.jugadores:
+        for jugador in self._jugadores:
             print(jugador.__str__())
 
     def guardar_jugadores(self):
         fichero = open("DatabaseGamers.pkl", "ab+")
-        pickle.dump(self.jugadores, fichero)
+        pickle.dump(self._jugadores, fichero)
         fichero.close()
         del fichero
     
@@ -84,5 +84,5 @@ class ListaJugadores:
     #     return jugadores_sort
     def mostrar_informacion(self):
         print("La información del fichero externo es la siguiente:")
-        for jugador in self.jugadores:
+        for jugador in self._jugadores:
             print( jugador.__str__() )

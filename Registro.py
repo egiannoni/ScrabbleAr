@@ -39,10 +39,11 @@ def main():
         if event == 'Ok':
             jug= Jugador(values['pas'],values['nick'] ,values['nombre'],values['apellido'],values['nacionalidad'],values['correo'])
             lista_jugadores.agregar_jugador(jug)
-            window2.close()
+            break
         if event == None:
             break
         if event == 'Cancel':
             break
+    window2.close()
 if __name__ == '__main__':
     main()

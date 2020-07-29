@@ -1,1 +1,1 @@
-Carpeta que contiene los módulos con los codigos escritos en POO. Pero que no fueron utilizados para el programa pinricpal. 
+Carpeta que contiene los módulos con los codigos escritos en POO. Pero que no fueron utilizados para el programa principal. 

@@ -32,20 +32,17 @@ layout = [      [sg.Text('Datos Personales')],
 
 def main():
     """ Principal loop """
-
     window2 = sg.Window('Registro de ScrabbleAR', layout)
     event, values = window2.read()
     lista_jugadores=ListaJugadores()
     while True:
-        if event == 'Ok' :
-                jug= Jugador(values['pas'],values['nick'] ,values['nombre'],values['apellido'],values['nacionalidad'],values['correo'])
-                lista_jugadores.agregar_jugador(jug)
+        if event == 'Ok':
+            jug= Jugador(values['pas'],values['nick'] ,values['nombre'],values['apellido'],values['nacionalidad'],values['correo'])
+            lista_jugadores.agregar_jugador(jug)
+            window2.close()
         if event == None:
             break
         if event == 'Cancel':
             break
-    window2.close()
-
-
 if __name__ == '__main__':
     main()

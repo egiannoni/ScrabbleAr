@@ -1,5 +1,4 @@
 import pickle
-import operator
 
 class Jugador:
     """  Creates the gamers from information input on the registration """
@@ -43,10 +42,9 @@ class Jugador:
 
 
 class ListaJugadores:
-    jugadores = []
-
     def __init__(self):
-        fichero = open("prueba.pkl", "ab+")
+        self._jugadores=[]
+        fichero = open("DatabaseGamers.pkl", "ab+")
         fichero.seek(0)  # Desplazamos cursor al principio
 
         try:
@@ -57,7 +55,10 @@ class ListaJugadores:
         finally:
             fichero.close()
             del fichero
-
+    
+    def get_jugadores(self):
+        return self._jugadores
+    
     def agregar_jugador(self, jugador):
         self.jugadores.append(jugador)
         self.guardar_jugadores()
@@ -67,19 +68,21 @@ class ListaJugadores:
             print(jugador.__str__())
 
     def guardar_jugadores(self):
-        fichero = open("base_datos.pkl", "wb")
+        fichero = open("DatabaseGamers.pkl", "ab+")
         pickle.dump(self.jugadores, fichero)
         fichero.close()
         del fichero
+    
 
+    # def mostrar_informacion(self):
+    #     lista={}
+    #     for jugador in self.jugadores:
+    #         nick= Jugador.get_nick()
+    #         puntos= Jugador.get_puntos()
+    #         lista[nick]=puntos
+    #     jugadores_sort = sorted(lista,  reverse= True)
+    #     return jugadores_sort
     def mostrar_informacion(self):
-        lista={}
-        listaordenada=[]
+        print("La información del fichero externo es la siguiente:")
         for jugador in self.jugadores:
-            nick=jugador.get_nick()
-            puntos=jugador.get_puntos()
-            lista[nick]=puntos
-        jugadores_sort = sorted(lista.items(), key=operator.itemgetter(1), reverse= True)
-        for nick in enumerate(jugadores_sort):
-            listaordenada.append(nick[1][0], ':', lista[nick[1][0]])
-        return listaordenada
+            print( jugador.__str__() )

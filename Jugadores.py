@@ -5,7 +5,7 @@ class Jugador:
 
     def __init__(self, pas,nick,nombre,apellido,nacionalidad,correo):
 
-        self._pasword = pas
+        self._password = pas
         self._nick = nick
         self._nombre = nombre
         self._apellido = apellido
@@ -22,8 +22,8 @@ class Jugador:
     def get_nick (self):
         return self._nick
 
-    def get_pas (self):
-        return self._pasword
+    def get_pasword (self):
+        return self._password
 
     def get_apellido (self):
         return self._apellido
@@ -44,17 +44,14 @@ class Jugador:
 class ListaJugadores:
     def __init__(self):
         self._jugadores=[]
-        fichero = open("DatabaseGamers.pkl", "ab+")
-        fichero.seek(0)  # Desplazamos cursor al principio
-
+    
+    def cargar_fichero(self):
         try:
-            self._jugadores = pickle.load(fichero)  # Cargamos información
-            print("Se cargaron {} personas.".format(len(self._jugadores)))
+            with open("DatabaseGamers.pkl", "ab+") as arhivo:
+                lista_jugadores_2 = pickle.load(arhivo)
         except EOFError:
             print("El fichero está vacío.")
-        finally:
-            fichero.close()
-            del fichero
+        return lista_jugadores_2 
     
     def get_jugadores(self):
         return self._jugadores
@@ -74,14 +71,15 @@ class ListaJugadores:
         del fichero
     
 
-    # def mostrar_informacion(self):
-    #     lista={}
-    #     for jugador in self.jugadores:
-    #         nick= Jugador.get_nick()
-    #         puntos= Jugador.get_puntos()
-    #         lista[nick]=puntos
-    #     jugadores_sort = sorted(lista,  reverse= True)
-    #     return jugadores_sort
+    def mostrar_ranking(self):
+        lista={}
+        for jugador in self.jugadores:
+            nick= Jugador.get_nick()
+            puntos= Jugador.get_puntos()
+            lista[nick]=puntos
+        jugadores_sort = sorted(lista,  reverse= True)
+        return jugadores_sort
+    
     def mostrar_informacion(self):
         print("La información del fichero externo es la siguiente:")
         for jugador in self._jugadores:

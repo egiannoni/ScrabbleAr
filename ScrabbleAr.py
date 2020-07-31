@@ -33,7 +33,8 @@ while True:
     if event == ' Iniciar Sesion  ':
         usuario= value['nick']
         password= value['password']
-        lista_jugadores2= ListaJugadores.cargar_fichero()
+        lista_jugadores= ListaJugadores()
+        lista_jugadores2= lista_jugadores.cargar_fichero()
         usuario_valido = False
         for jugador in lista_jugadores2.get_jugadores():
             if jugador.get_nick() == usuario and jugador.get_password() == password:

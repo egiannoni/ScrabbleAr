@@ -1,28 +1,12 @@
-# ##########################################################################################
-# El presente código sería mejorable y compactable con clases y métodos que lo factoricen, #
-# sin embargo por el momento es un primer prototipo que muestra elementos que al           #
-# momento se están considerando para la versión final de la iterfaz de juego, así como la  #
-# puntuación de una palabra insertada por el usuario de acuerdo a las pautas               #
-# que corresponden a la 1era entrega del trabajo.                                          #
-# En cuanto a funcionalidad, la muestra actual pretende contemplar el ingreso de la        # 
-# 1era palabra por el usuario y su puntuación.                                             #
-# ##########################################################################################
-# Fecha de la primera entrega: semana del 16 de junio. En esta entrega se evaluará:
-# ● un primer prototipo: donde se visualice el tablero y las demás componentes del
-# juego. No es necesario que estén funcionando todos los componentes,
-# simplemente para visualizar la interfaz de usuario propuesta;
-# ● el ingreso de una palabra al tablero y su puntuación.
-# Fecha de la segunda entrega: semana del 13 de julio. En esta entrega se evaluará el
-# trabajo completo.
-# ----------------------------------------------------------------------------------------
 import PySimpleGUI as sg
 import random
 import time
 import pattern.es
 import Config
+from itertools import permutations
 
-BOARD_HEIGHT = 15
 BOARD_WIDTH = 15
+BOARD_HEIGHT = 15
 ARRAY_LENGTH = 7
 BUTTON_WIDTH = 2
 BUTTON_HEIGHT = 1
@@ -30,16 +14,17 @@ BUTTON_PADDING = 1
 BUTTON_SIZE = BUTTON_WIDTH, BUTTON_HEIGHT
 LETTER_POINTS = {
             'A': 1, 'B': 3, 'C': 2, 'D': 2, 'E': 1, 'F': 4, 'G': 2, 'H': 4, 'I': 1, 'J': 6, 'K': 8,
-            'L': 4, 'LL': 8, 'M': 3, 'N': 1, 'Ñ': 8, 'O': 1, 'P': 3, 'Q': 8, 'R': 1, 'RR': 8, 'S': 1,
+            'L': 4, 'M': 3, 'N': 1, 'Ñ': 8, 'O': 1, 'P': 3, 'Q': 8, 'R': 1, 'S': 1,
             'T': 1, 'U': 1, 'V': 4, 'W': 8, 'X': 8, 'Y': 4, 'Z': 10
         }
 LETTERS_POOL = {
             'A': 11, 'B': 3, 'C': 4, 'D': 4, 'E': 11, 'F': 2, 'G': 2, 'H': 2, 'I': 6, 'J': 2, 'K': 1,
-            'L': 4, 'LL': 1, 'M': 3, 'N': 5, 'Ñ': 1, 'O': 8, 'P': 2, 'Q': 1, 'R': 4, 'RR': 1, 'S': 7,
+            'L': 4, 'M': 3, 'N': 5, 'Ñ': 1, 'O': 8, 'P': 2, 'Q': 1, 'R': 4, 'S': 7,
             'T': 4, 'U': 6, 'V': 2, 'W': 1, 'X': 1, 'Y': 1, 'Z': 1
         }
 
 def colorize_buttons(button):
+    '''Colorizes buttons''' # Niveles de dificultad diferentes tendrían distinta distribución y densidad de los colores para multiplicar (Config.py)
     (i, j) = button
     color = 'gray'
     if i == j or i + j == 14:
@@ -58,9 +43,12 @@ def colorize_buttons(button):
     return color
 
 def valid(word):
+    '''Returns True if param is in pattern.es and lexicon.es, disregarding case''' # Diferentes niveles aceptarían distinta validación (Config.py)
+    word = word.lower()
     return len(word) >= 2 and len(word) <= 7 and word in pattern.es.lexicon.keys() and word in pattern.es.spelling.keys()
 
 def score(word, letter_matrix, letter_matrix_positions_used):
+    '''Returns score for a given word'''
     total = 0
     for letter in word:
         points = 0
@@ -76,9 +64,6 @@ def score(word, letter_matrix, letter_matrix_positions_used):
         letter_matrix_positions_used.pop(0)
         total += points
     return total
-
-def hint():
-    pass
 
 def main():
     # Data structures for the interface to be updated with
@@ -98,9 +83,16 @@ def main():
         letter = random.choice(all_letters).upper()
         ai_letter_array.append(letter)
         all_letters.remove(letter)
-
-    letter_matrix = [[['', colorize_buttons((i, j))] for i in range(BOARD_HEIGHT)] for j in range(BOARD_WIDTH)]
     
+    # Association between letter positions and colors for scoring in a matrix
+    letter_matrix = [[['', colorize_buttons((i, j))] for i in range(BOARD_WIDTH)] for j in range(BOARD_HEIGHT)]
+
+    # Positions for the AI to choose from
+    board_positions = [(i, j) for i in range(BOARD_WIDTH) for j in range(BOARD_HEIGHT)]
+
+    # Random initial turn
+    user_turn = random.choice([True, False])
+
     user_total_score = 0
     ai_total_score = 0
     letter_changes_available = 3
@@ -152,24 +144,24 @@ def main():
         [sg.Column(bottom_column_layout_1), sg.VerticalSeparator(key='-BOTTOM_V_SEPARATOR-'), sg.Column(bottom_column_layout_2)]
     ]
     # Window and auxiliary variables
-    window = sg.Window('ScrabbleAR', layout, grab_anywhere=True)
+    window = sg.Window('ScrabbleAR', layout, grab_anywhere=True, no_titlebar=True)
     letter_grabbed = ''
     user_word = ''
     user_word_score = 0
     ai_word_score = 0
-    first_letter_placement_ever = True # Si juega la máquina primero, se iniciaría en False
+    first_letter_placement_ever = True
     first_letter_placement = True
     moves_horizontally = True
     moves_vertically = True
     pos = ()
     changing_letters = False
     user_chose_letter_to_change = False
-    # These three variables are for when the user inputs an invalid word
+    # These three variables are for keeping track of letters and positions in play
     letter_matrix_positions_updated = []
     user_letter_array_positions_updated = []
     letters_in_use = []
     # Time variables
-    game_duration = 120 # Se obtiene de la configuracion
+    game_duration = 600 # Se obtiene de la configuracion, de acuerdo al nivel elegido (Config.py)
     start_time = time.time()
     finish_time = start_time + game_duration
     
@@ -180,6 +172,7 @@ def main():
         if event == None:
             break
         if endgame:
+            sg.PopupOK(f'Juego finalizado. Tus puntos: {user_total_score}. Puntos del ordenador: {ai_total_score}', no_titlebar=True, grab_anywhere=True)
             break
         # Updating time
         current_time = time.time()
@@ -189,6 +182,7 @@ def main():
         window['-CLOCK-'].Update('{:0>2}:{:0>2}:{:02d}'.format(int(hours),int(minutes),int(seconds)))
         # Checks for endtime
         if remaining_time <= 0:
+            sg.PopupOK('Se acabó el tiempo', no_titlebar=True, grab_anywhere=True)
             endgame = True
         # Checks for exit button
         if event == '-FINISH-':
@@ -196,8 +190,103 @@ def main():
         # Updates score in the display
         window['-USER_TOTAL_SCORE-'].Update(user_total_score)
         window['-AI_TOTAL_SCORE-'].Update(ai_total_score)
+        
+        # AI play
+        if not user_turn:
+            # Lists valid words
+            ai_word = ''
+            ai_words = []
+            for i in range(len(ai_letter_array)):
+                ai_words += [ai_word.join(ai_letter) for ai_letter in permutations(ai_letter_array, i + 1)]
+            ai_unique_words = set(ai_words)
+            ai_valid_words = [word for word in filter(valid, ai_unique_words)]
+            # Tries to make a word
+            try:
+                # Chooses a valid word
+                # Sorts them by length
+                ai_valid_words.sort(key=lambda x: len(x))
+                # Picks the longest
+                ai_word_choice = ai_valid_words.pop() # En dificultad fácil elegiría la más corta (pop(index=0)), en media la del medio (Config.py)
+                # Finds place to put the word
+                positions_needed = len(ai_word_choice)
+                while positions_needed:
+                    if first_letter_placement_ever:
+                        first_letter_placement_ever = False
+                        first_letter_placement = False
+                        # First letter ever to the center of the board
+                        pos = (BOARD_WIDTH // 2, BOARD_HEIGHT // 2)
+                        direction = random.choice(['downwards', 'rightwards'])
+                        positions_needed -= 1
+                        letter_matrix_positions_updated.append(pos)
+                    elif first_letter_placement:
+                        first_letter_placement = False
+                        # First letter of a word is random
+                        pos = random.choice(board_positions)
+                        direction = random.choice(['downwards', 'rightwards'])
+                        positions_needed -= 1
+                        letter_matrix_positions_updated.append(pos)
+                    else:
+                        if direction == 'downwards':
+                            for i in range(positions_needed):
+                                pos = list(pos)
+                                pos[1] += 1
+                                pos = tuple(pos)
+                                letter_matrix_positions_updated.append(pos)
+                                positions_needed -= 1
+                        else:
+                            # direction is rightwards
+                            for i in range(positions_needed):
+                                pos = list(pos)
+                                pos[0] += 1
+                                pos = tuple(pos)
+                                letter_matrix_positions_updated.append(pos)
+                                positions_needed -= 1
+                    if positions_needed == 0:
+                        # Checks if it's all available spots
+                        for p in letter_matrix_positions_updated:
+                            if p[0] >= BOARD_WIDTH or p[1] >= BOARD_HEIGHT or letter_matrix[p[0]][p[1]][0] != '':
+                                # Preparing for the next search
+                                positions_needed = len(ai_word_choice)
+                                first_letter_placement = True
+                                letter_matrix_positions_updated = []
+                                break
+                # Places the letters in the board
+                for i in range(len(ai_word_choice)):
+                    # Grabs a letter
+                    ai_letter = ai_word_choice[i]
+                    # Erases it from the ai letter array
+                    ai_letter_array[ai_letter_array.index(ai_letter)] = ''
+                    # Gets the corresponding position
+                    pos = letter_matrix_positions_updated[i]
+                    # Updates association matrix
+                    letter_matrix[pos[0]][pos[1]][0] = ai_letter
+                    # Reflects it on the display
+                    window[pos].Update('{}'.format(letter_matrix[pos[0]][pos[1]][0]))
+                # Scores the AI word
+                ai_word_score = score(ai_word_choice, letter_matrix, letter_matrix_positions_updated)
+                ai_total_score += ai_word_score
+                # Checks for endgame if there aren't enough letters in the pool to replace the last used
+                if len(ai_word_choice) > len(all_letters):
+                    sg.PopupOK('No hay más letras en la bolsa', no_titlebar=True, grab_anywhere=True)
+                    endgame = True
+                else:
+                    # Assign more letters for the ai
+                    for i in range(len(ai_word_choice)):
+                        letter = random.choice(all_letters).upper()
+                        ai_letter_array[ai_letter_array.index('')] = letter
+                        all_letters.remove(letter)
+                    # The turn goes back to the user
+                    user_turn = not user_turn
+                    # Resets for the user
+                    first_letter_placement = True
+                    letter_matrix_positions_updated = []
+            # Handles .pop() at line 208 if no valid words were found
+            except IndexError:
+                sg.PopupOK('El ordenador no ha encontrado palabra', no_titlebar=True, grab_anywhere=True)
+                endgame = True
+
         # Interaction with user's set of letters
-        if type(event) == int and not changing_letters:
+        if type(event) == int and not changing_letters and user_turn:
             # Grabs the letter from the array
             if user_letter_array[event] != '' and letter_grabbed == '':
                 letter_grabbed = user_letter_array[event]
@@ -213,10 +302,10 @@ def main():
                 window[event].Update('{}'.format(user_letter_array[event]))
                 user_letter_array_positions_updated.remove(event)
         # Interaction with game board
-        if type(event) == tuple and letter_matrix[event[0]][event[1]][0] == '' and letter_grabbed != '' and not changing_letters:
+        if type(event) == tuple and letter_matrix[event[0]][event[1]][0] == '' and letter_grabbed != '' and not changing_letters and user_turn:
             # The first ever letter placement goes in the center
             if first_letter_placement_ever:
-                pos = (BOARD_HEIGHT // 2, BOARD_WIDTH // 2)
+                pos = (BOARD_WIDTH // 2, BOARD_HEIGHT // 2)
                 # Checks whether the first letter is positioned correctly
                 if event[0] == pos[0] and event[1] == pos[1]:
                     first_letter_placement_ever = False
@@ -302,7 +391,7 @@ def main():
                         pass
 
         # Resetting current word
-        if event == '-RETURN_LETTERS-':
+        if event == '-RETURN_LETTERS-' and user_turn:
             letter_grabbed = ''
             # Reverses current play
             # Clears movement flags
@@ -318,11 +407,11 @@ def main():
                 user_letter_array[i] = letters_in_use.pop()
                 window[i].Update('{}'.format(user_letter_array[i]))
             # Checks if the first word has been placed
-            if user_total_score == 0:
+            if user_total_score == 0 and ai_total_score == 0:
                 first_letter_placement_ever = True
 
         # User starts changing letters
-        if event == '-CHANGE_LETTERS-' and not changing_letters:
+        if event == '-CHANGE_LETTERS-' and not changing_letters and user_turn:
             changing_letters = True
             window['-CHANGE_LETTERS-'].Update('Selecciónalas')
         # User chooses letters to change
@@ -370,18 +459,19 @@ def main():
             window['-CHANGE_LETTERS-'].Update(f'Cambiar letras ({letter_changes_available})')
             if letter_changes_available == 0:
                 window['-CHANGE_LETTERS-'].Update(disabled=True)
+            # When the user changes their letters, their turn finishes
+            user_turn = not user_turn
 
         # Score the created word
-        if event == '-SCORE-':
-            user_word = user_word.lower()
+        if event == '-SCORE-' and user_turn:
             if valid(user_word):
                 user_word_score = score(user_word, letter_matrix, letter_matrix_positions_updated)
                 user_total_score += user_word_score
-                sg.PopupOK('Tu palabra acumula {} puntos'.format(user_word_score))
                 user_word_score = 0
                 # Check if there are enough letters in the pool to replace the last used
                 if len(user_word) > len(all_letters):
-                    endgame = True # Should I add a break statement?
+                    sg.PopupOK('No hay más letras en la bolsa', no_titlebar=True, grab_anywhere=True)
+                    endgame = True
                 # Assign more letters for the user
                 for i in range(len(user_word)):
                     letter = random.choice(all_letters).upper()
@@ -394,6 +484,8 @@ def main():
                 letter_matrix_positions_updated = []
                 user_letter_array_positions_updated = []
                 letters_in_use = []
+                # When the user scores a valid word, their turn finishes
+                user_turn = not user_turn
             else:
                 # Reverses current play
                 for t in letter_matrix_positions_updated:
@@ -403,9 +495,9 @@ def main():
                     i = user_letter_array_positions_updated.pop()
                     user_letter_array[i] = letters_in_use.pop()
                     window[i].Update('{}'.format(user_letter_array[i]))
-                sg.PopupOK('Tu palabra era inválida')
+                sg.PopupOK('Tu palabra era inválida', no_titlebar=True, grab_anywhere=True)
                 # Checks if the first word has been placed
-                if user_total_score == 0:
+                if user_total_score == 0 and ai_total_score == 0:
                     first_letter_placement_ever = True
             # Clears movement flags
             first_letter_placement = True

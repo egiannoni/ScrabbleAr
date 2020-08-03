@@ -24,26 +24,27 @@ LETTERS_POOL = {
         }
 
 def colorize_buttons(button):
-    '''Colorizes buttons''' # Niveles de dificultad diferentes tendrían distinta distribución y densidad de los colores para multiplicar (Config.py)
+    '''Colorizes buttons'''
+    #This color palette was selected so it can be properly seen by users with different degrees of color blindness 
     (i, j) = button
-    color = 'gray'
+    color = '#ffffbf' # lo que era 'grey'
     if i == j or i + j == 14:
-        color = 'red'
+        color = '#d7191c' # lo que era 'red'
     if i in {0, 7, 14} and j in {0, 7, 14}:
-        color = 'yellow'
+        color = '#fdae61' # lo que era 'yellow'
     s = set((i, j))
     if s == {0, 3} or s == {0,11} or s == {3, 14} or s == {3, 14} or s == {11, 14}:
-        color = 'green'
+        color = '#abd9e9' # lo que era 'green'
     if s == {2, 6} or s == {2, 8} or s == {3, 7} or s == {6, 12} or s == {7, 11} or s == {8, 12}:
-        color = 'green'
+        color = '#abd9e9'  # lo que era 'green'
     if i in {6, 8} and j in {6, 8}:
-        color = 'blue'
+        color = '#2c7bb6'  # lo que era 'blue'
     if s == {1, 5} or s == {1, 9} or s == {5, 13} or s == {9, 13}:
-        color = 'blue'
+        color = '#2c7bb6'  # lo que era 'blue'
     return color
 
 def valid(word):
-    '''Returns True if param is in pattern.es and lexicon.es, disregarding case''' # Diferentes niveles aceptarían distinta validación (Config.py)
+    '''Returns True if param is in pattern.es and lexicon.es, disregarding case'''
     word = word.lower()
     return len(word) >= 2 and len(word) <= 7 and word in pattern.es.lexicon.keys() and word in pattern.es.spelling.keys()
 
@@ -53,13 +54,13 @@ def score(word, letter_matrix, letter_matrix_positions_used):
     for letter in word:
         points = 0
         points += LETTER_POINTS[letter.upper()]
-        if letter_matrix[letter_matrix_positions_used[0][0]][letter_matrix_positions_used[0][1]][1] == 'yellow':
+        if letter_matrix[letter_matrix_positions_used[0][0]][letter_matrix_positions_used[0][1]][1] == '#fdae61':
             points *= 3
-        if letter_matrix[letter_matrix_positions_used[0][0]][letter_matrix_positions_used[0][1]][1] == 'green':
+        if letter_matrix[letter_matrix_positions_used[0][0]][letter_matrix_positions_used[0][1]][1] == '#abd9e9':
             points *= 2
-        if letter_matrix[letter_matrix_positions_used[0][0]][letter_matrix_positions_used[0][1]][1] == 'blue':
+        if letter_matrix[letter_matrix_positions_used[0][0]][letter_matrix_positions_used[0][1]][1] == '#2c7bb6':
             points -= 1
-        if letter_matrix[letter_matrix_positions_used[0][0]][letter_matrix_positions_used[0][1]][1] == 'red':
+        if letter_matrix[letter_matrix_positions_used[0][0]][letter_matrix_positions_used[0][1]][1] == '#d7191c':
             points -= 3
         letter_matrix_positions_used.pop(0)
         total += points
@@ -87,6 +88,7 @@ def main():
     # Association between letter positions and colors for scoring in a matrix
     letter_matrix = [[['', colorize_buttons((i, j))] for i in range(BOARD_WIDTH)] for j in range(BOARD_HEIGHT)]
 
+
     # Positions for the AI to choose from
     board_positions = [(i, j) for i in range(BOARD_WIDTH) for j in range(BOARD_HEIGHT)]
 
@@ -96,8 +98,6 @@ def main():
     user_total_score = 0
     ai_total_score = 0
     letter_changes_available = 3
-    # Theme
-    sg.theme('Dark Teal 12')
     # Layout
     # AI letter array column layout
     top_column_layout_1 = [
@@ -135,8 +135,10 @@ def main():
     # Score and Exit column layout
     bottom_column_layout_2 = [
         [sg.Button('Regresar letras', key='-RETURN_LETTERS-', pad=((28, BUTTON_PADDING), (4, BUTTON_PADDING)))],
-        [sg.Button('Puntuar', key='-SCORE-', pad=((0, BUTTON_PADDING), (8, BUTTON_PADDING))),
-            sg.Button('Terminar', key='-FINISH-', pad=((50, BUTTON_PADDING), (8, BUTTON_PADDING)))]
+        [sg.Button('Puntuar', key='-SCORE-', pad=((0, BUTTON_PADDING), (8, BUTTON_PADDING))), 
+            # sg.Button('Pasar', key='-PASS-', pad=((5, BUTTON_PADDING), (8, BUTTON_PADDING))),
+            #si se habilita pass en "Terminar" poner 5 y 8 y queda bien la ubicación
+            sg.Button('Terminar', key='-FINISH-', pad=((45, BUTTON_PADDING), (8, BUTTON_PADDING)))]
     ]
     # User and exit layout
     layout += [
@@ -173,6 +175,7 @@ def main():
             break
         if endgame:
             sg.PopupOK(f'Juego finalizado. Tus puntos: {user_total_score}. Puntos del ordenador: {ai_total_score}', no_titlebar=True, grab_anywhere=True)
+            window.close()
             break
         # Updating time
         current_time = time.time()
@@ -190,6 +193,7 @@ def main():
         # Updates score in the display
         window['-USER_TOTAL_SCORE-'].Update(user_total_score)
         window['-AI_TOTAL_SCORE-'].Update(ai_total_score)
+        
         
         # AI play
         if not user_turn:
@@ -462,6 +466,8 @@ def main():
             # When the user changes their letters, their turn finishes
             user_turn = not user_turn
 
+            
+            
         # Score the created word
         if event == '-SCORE-' and user_turn:
             if valid(user_word):

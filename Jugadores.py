@@ -22,7 +22,7 @@ class Jugador:
     def get_nick (self):
         return self._nick
 
-    def get_pasword (self):
+    def get_password (self):
         return self._password
 
     def get_apellido (self):
@@ -51,7 +51,6 @@ class ListaJugadores:
                 lista_jugadores_2 = pickle.load(arhivo)
         except EOFError:
             print("El fichero está vacío.")
-        return lista_jugadores_2 
     
     def get_jugadores(self):
         return self._jugadores

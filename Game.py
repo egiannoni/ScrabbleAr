@@ -2,8 +2,8 @@ import PySimpleGUI as sg
 import random
 import time
 import pattern.es
-import Config
 from itertools import permutations
+import Config
 
 BOARD_WIDTH = 15
 BOARD_HEIGHT = 15

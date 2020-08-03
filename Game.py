@@ -118,8 +118,8 @@ def main():
     ]
     # AI letter array and clock layout
     layout = [
-        [sg.Column(top_column_layout_1), sg.VerticalSeparator(key='-TOP_V_SEPARATOR-'), sg.Column(top_column_layout_2)],
-        [sg.Text('_' * ((BUTTON_WIDTH + BUTTON_PADDING) * BOARD_WIDTH + 4), key='-TOP_H_SEPARATOR-')]
+        [sg.Column(top_column_layout_1), sg.VerticalSeparator(), sg.Column(top_column_layout_2)],
+        [sg.Text('_' * ((BUTTON_WIDTH + BUTTON_PADDING) * BOARD_WIDTH + 4))]
     ]
     # AI score layout
     layout += [
@@ -148,8 +148,8 @@ def main():
     ]
     # User and exit layout
     layout += [
-        [sg.Text('_' * ((BUTTON_WIDTH + BUTTON_PADDING) * BOARD_WIDTH + 4), key='-BOTTOM_H_SEPARATOR-')],
-        [sg.Column(bottom_column_layout_1), sg.VerticalSeparator(key='-BOTTOM_V_SEPARATOR-'), sg.Column(bottom_column_layout_2)]
+        [sg.Text('_' * ((BUTTON_WIDTH + BUTTON_PADDING) * BOARD_WIDTH + 4))],
+        [sg.Column(bottom_column_layout_1), sg.VerticalSeparator(), sg.Column(bottom_column_layout_2)]
     ]
     # Window and auxiliary variables
     window = sg.Window('ScrabbleAR', layout, grab_anywhere=True)

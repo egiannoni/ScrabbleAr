@@ -5,17 +5,27 @@ import Registro
 import Game
 from Jugadores import ListaJugadores
  
-sg.theme('Material2')
-column1 = [  [sg.Text('Scrabble Ar', size=(15, 1), justification='center', font=("Comic", "30", "bold italic"),text_color='black')],
-            [sg.Text(' Usuario: ',font=("Comic", "15"),text_color='black'),sg.InputText(size=(30, 1),text_color='gray',key='nick')],
-            [sg.T('Contraseña:',font=("Comic", "15"),text_color='black'),sg.InputText(size=(30, 1),text_color='gray',key='password',password_char='*')],
-            [sg.T(' ' * 20),sg.Button(' Iniciar Sesion  ')],
-            [sg.T(' ' * 22),sg.Button('Registrarse')],
+sg.theme('LightBrown3')
+# sg.theme_button(('#fdae61'))
+# sg.theme_button(('black','#fdae61'))
+column1 = [  [sg.Text('Scrabble Ar', size=(15, 1), justification='center', font=("Verdana", "30", "bold"),text_color='#d7191c')],
             [sg.T(' ' * 30)],
-            [sg.Button('Conoce mas del juego'),sg.T(' ' * 5), sg.Button('Nuestro Ranking')] ]
+            [sg.T(' ' * 30)],
+            [sg.T(' ' * 30)],
+            [sg.Text('usuario:     ',font=("Verdana", "15"),text_color='black'),sg.InputText(size=(30, 1),text_color='black',key='nick')],
+            [sg.T('contraseña:',font=("Verdana", "15"),text_color='black'),sg.InputText(size=(30, 1),text_color='black',key='password',password_char='*')],
+            [],
+            [sg.T(' ' * 20),sg.Button('Iniciar Sesion', button_color=('black','#fdae61'), pad=(50,0))],
+            [sg.T(' ' * 22),sg.Button('Registrarse',button_color=('black','#fdae61'), pad=(48,0))],
+            [sg.T(' ' * 30)],
+            [sg.T(' ' * 30)],
+            [sg.T(' ' * 30)],
+            [sg.Button('Conoce mas del juego',button_color=('black','#fdae61'), pad=(20,0)) ,sg.T(' ' * 5), sg.Button('Nuestro Ranking',button_color=('black','#fdae61'),pad=(45,0))],
+            [sg.T(' ' * 30)],
+            [sg.T(' ' * 30)]]
 
 
-layout = [[sg.Image(r'ScrabbleArBackGround.png',size=(400,400)),sg.VerticalSeparator( ),sg.Column(column1)] ]
+layout = [[sg.Image(r'ScrabbleArBackGround.png',size=(400,350)),sg.VerticalSeparator( ),sg.Column(column1)] ]
 
 window1 = sg.Window('ScrabbleAr ',layout)
 

@@ -25,7 +25,7 @@ LETTERS_POOL = {
 
 def colorize_buttons(button):
     '''Colorizes buttons'''
-    #This color palette was selected so it can be properly seen by users with different degrees of color blindness 
+    #This color palette was selected so it can be properly seen by users with different degrees of color blindness
     (i, j) = button
     color = '#ffffbf' # lo que era 'grey'
     if i == j or i + j == 14:
@@ -84,7 +84,7 @@ def main():
         letter = random.choice(all_letters).upper()
         ai_letter_array.append(letter)
         all_letters.remove(letter)
-    
+
     # Association between letter positions and colors for scoring in a matrix
     letter_matrix = [[['', colorize_buttons((i, j))] for i in range(BOARD_WIDTH)] for j in range(BOARD_HEIGHT)]
 
@@ -111,11 +111,11 @@ def main():
     # AI letter array and clock layout
     layout = [
         [sg.Column(top_column_layout_1), sg.VerticalSeparator(), sg.Column(top_column_layout_2)],
-        [sg.Text('_' * ((BUTTON_WIDTH + BUTTON_PADDING) * BOARD_WIDTH + 4))]
+        [sg.Text('_' * ((BUTTON_WIDTH + BUTTON_PADDING) * BOARD_WIDTH + 4), key='-TOP_H_SEPARATOR-')]
     ]
     # AI score layout
     layout += [
-        [sg.Text('Puntaje del ordenador:', key='-AI_TOTAL_SCORE_TEXT-', size=(16, 1), font=('Helvetica', 10)), 
+        [sg.Text('Puntaje del ordenador:', key='-AI_TOTAL_SCORE_TEXT-', size=(16, 1), font=('Helvetica', 10)),
         sg.Text(key='-AI_TOTAL_SCORE-', size=(8, 1), font=('Helvetica', 11))]
     ]
     # Board layout
@@ -124,7 +124,7 @@ def main():
     ]
     # User score layout
     layout += [
-        [sg.Text('Puntaje del usuario:', key='-USER_TOTAL_SCORE_TEXT-', size=(14, 1), font=('Helvetica', 10)), 
+        [sg.Text('Puntaje del usuario:', key='-USER_TOTAL_SCORE_TEXT-', size=(14, 1), font=('Helvetica', 10)),
         sg.Text(key='-USER_TOTAL_SCORE-', size=(8, 1), font=('Helvetica', 11))]
     ]
     # User letter array column layout
@@ -135,14 +135,14 @@ def main():
     # Score and Exit column layout
     bottom_column_layout_2 = [
         [sg.Button('Regresar letras', key='-RETURN_LETTERS-', pad=((28, BUTTON_PADDING), (4, BUTTON_PADDING)))],
-        [sg.Button('Puntuar', key='-SCORE-', pad=((0, BUTTON_PADDING), (8, BUTTON_PADDING))), 
+        [sg.Button('Puntuar', key='-SCORE-', pad=((0, BUTTON_PADDING), (8, BUTTON_PADDING))),
             # sg.Button('Pasar', key='-PASS-', pad=((5, BUTTON_PADDING), (8, BUTTON_PADDING))),
             #si se habilita pass en "Terminar" poner 5 y 8 y queda bien la ubicación
             sg.Button('Terminar', key='-FINISH-', pad=((45, BUTTON_PADDING), (8, BUTTON_PADDING)))]
     ]
     # User and exit layout
     layout += [
-        [sg.Text('_' * ((BUTTON_WIDTH + BUTTON_PADDING) * BOARD_WIDTH + 4))],
+        [sg.Text('_' * ((BUTTON_WIDTH + BUTTON_PADDING) * BOARD_WIDTH + 4), key='-BOTTOM_H_SEPARATOR-')],
         [sg.Column(bottom_column_layout_1), sg.VerticalSeparator(), sg.Column(bottom_column_layout_2)]
     ]
     # Window and auxiliary variables
@@ -166,7 +166,7 @@ def main():
     game_duration = 600 # Se obtiene de la configuracion, de acuerdo al nivel elegido (Config.py)
     start_time = time.time()
     finish_time = start_time + game_duration
-    
+
     endgame = False
     # Loop
     while True:
@@ -193,8 +193,8 @@ def main():
         # Updates score in the display
         window['-USER_TOTAL_SCORE-'].Update(user_total_score)
         window['-AI_TOTAL_SCORE-'].Update(ai_total_score)
-        
-        
+
+
         # AI play
         if not user_turn:
             # Lists valid words
@@ -298,7 +298,7 @@ def main():
                 user_letter_array[event] = ''
                 window[event].Update('')
                 user_letter_array_positions_updated.append(event)
-            # Puts the letter back in the array 
+            # Puts the letter back in the array
             elif user_letter_array[event] == '' and letter_grabbed != '':
                 user_letter_array[event] = letter_grabbed
                 letters_in_use.remove(letter_grabbed)
@@ -337,7 +337,7 @@ def main():
                     pos = event[0], event[1]
                     letter_matrix_positions_updated.append(event)
                     first_letter_placement = False
-                # If it's not the first letter placement, restrains the placements to exclusively rightwards or downwards 
+                # If it's not the first letter placement, restrains the placements to exclusively rightwards or downwards
                 elif (event[0] - 1 == pos[0] and event[1] == pos[1]) or (event[0] == pos[0] and event[1] - 1 == pos[1]):
                     if moves_horizontally and event[0] - 1 == pos[0] and event[1] == pos[1]:
                         moves_vertically = False
@@ -352,7 +352,7 @@ def main():
                     elif moves_horizontally and not moves_vertically:
                         try:
                             window[(pos[0] + 1, pos[1])].Update('{}'.format(letter_grabbed))
-                            window.Refresh()                
+                            window.Refresh()
                             time.sleep(0.1)
                             window[(pos[0] + 1, pos[1])].Update('')
                         except AttributeError:
@@ -429,7 +429,7 @@ def main():
                 user_letter_array[event] = ''
                 window[event].Update('')
                 user_letter_array_positions_updated.append(event)
-            # Puts the letter back in the array 
+            # Puts the letter back in the array
             elif user_letter_array[event] == '' and letter_grabbed != '':
                 user_letter_array[event] = letter_grabbed
                 letters_in_use.remove(letter_grabbed)
@@ -466,8 +466,8 @@ def main():
             # When the user changes their letters, their turn finishes
             user_turn = not user_turn
 
-            
-            
+
+
         # Score the created word
         if event == '-SCORE-' and user_turn:
             if valid(user_word):

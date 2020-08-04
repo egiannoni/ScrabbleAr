@@ -40,19 +40,20 @@ while True:
         Ranking.main()
     if event == 'Registrarse':
         Registro.main()
-    if event == ' Iniciar Sesion  ':
-        usuario= value['nick']
-        password= value['password']
-        lista_jugadores= ListaJugadores()
-        lista_jugadores2= lista_jugadores.cargar_fichero()
-        usuario_valido = False
-        for jugador in lista_jugadores2.get_jugadores():
-            if jugador.get_nick() == usuario and jugador.get_password() == password:
-                usuario_valido = True
-                break
-        if usuario_valido:
-            print ('validacion con exito')
-            window1.close()
-            Game.main()
-        else:
-            sg.SystemTray.notify('Error', 'Los datos ingresados no son correctos ')
+    if event == 'Iniciar Sesion':
+        window1.close()
+        Game.main()
+        # usuario= value['nick']
+        # password= value['password']
+        # lista_jugadores= ListaJugadores()
+        # lista_jugadores2= lista_jugadores.cargar_fichero()
+        # usuario_valido = False
+        # for jugador in lista_jugadores2.get_jugadores():
+        #     if jugador.get_nick() == usuario and jugador.get_password() == password:
+        #         usuario_valido = True
+        # if usuario_valido:
+        #     print ('validacion con exito')
+        #     window1.close()
+        #     Game.main()
+        # else:
+        #     sg.SystemTray.notify('Error', 'Los datos ingresados no son correctos ')

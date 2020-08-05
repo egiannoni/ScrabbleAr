@@ -1,5 +1,6 @@
 import PySimpleGUI as sg
 from Jugadores import Jugador, ListaJugadores
+import Database
 
 ############# ARMADO DE LA INTERFAZ #############
 column_1 =  [  [sg.Text('Nombre')],
@@ -38,7 +39,15 @@ def main():
     while True:
         if event == 'Ok':
             jug= Jugador(values['pas'],values['nick'] ,values['nombre'],values['apellido'],values['nacionalidad'],values['correo'])
+           
+            a = Database.abro_base()
+            if a != None:
+                lista_jugadores = Database.abro_base()
+            else:
+                lista_jugadores = ListaJugadores()
+          
             lista_jugadores.agregar_jugador(jug)
+            Database.guardo_base(lista_jugadores)
             break
         if event == None:
             break

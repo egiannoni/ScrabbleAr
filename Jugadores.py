@@ -45,31 +45,16 @@ class ListaJugadores:
     def __init__(self):
         self._jugadores=[]
     
-    def cargar_fichero(self):
-        try:
-            with open("DatabaseGamers.pkl", "ab+") as arhivo:
-                lista_jugadores_2 = pickle.load(arhivo)
-        except EOFError:
-            print("El fichero está vacío.")
-    
     def get_jugadores(self):
         return self._jugadores
     
     def agregar_jugador(self, jugador):
         self._jugadores.append(jugador)
-        self.guardar_jugadores()
 
     def mostrar_jugador(self):
         for jugador in self._jugadores:
             print(jugador.__str__())
 
-    def guardar_jugadores(self):
-        fichero = open("DatabaseGamers.pkl", "ab+")
-        pickle.dump(self._jugadores, fichero)
-        fichero.close()
-        del fichero
-    
-    
     def mostrar_informacion(self):
         print("La información del fichero externo es la siguiente:")
         for jugador in self.jugadores:

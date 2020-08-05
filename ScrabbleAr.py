@@ -4,6 +4,7 @@ import Ranking
 import Registro
 import Game
 from Jugadores import ListaJugadores
+import Database
  
 sg.theme('LightBrown3')
 # sg.theme_button(('#fdae61'))
@@ -39,19 +40,32 @@ while True:
     if event == 'Registrarse':
         Registro.main()
     if event == 'Iniciar Sesion':
-        window1.close()
-        Game.main()
-        # usuario= value['nick']
-        # password= value['password']
-        # lista_jugadores= ListaJugadores()
-        # lista_jugadores2= lista_jugadores.cargar_fichero()
-        # usuario_valido = False
-        # for jugador in lista_jugadores2.get_jugadores():
-        #     if jugador.get_nick() == usuario and jugador.get_password() == password:
-        #         usuario_valido = True
-        # if usuario_valido:
-        #     print ('validacion con exito')
-        #     window1.close()
-        #     Game.main()
-        # else:
-        #     sg.SystemTray.notify('Error', 'Los datos ingresados no son correctos ')
+        # window1.close()
+        # Game.main()
+        usuario= value['nick']
+        password= value['password']
+        lista_jugadores= ListaJugadores()
+        
+        a = Database.abro_base()
+        try:
+            if a != None:
+                lista_jugadores_2 = Database.abro_base()
+                usuario_valido = False
+                for jugador in lista_jugadores_2.get_jugadores():
+                    if jugador.get_nick() == usuario and jugador.get_password() == password:
+                        usuario_valido = True
+                        break
+                if usuario_valido:
+                    print ('validacion con exito')
+                    window1.close()
+                    Game.main()
+                else:
+                    sg.SystemTray.notify('Error', 'Los datos ingresados no son correctos ')
+            else:
+                sg.SystemTray.notify('Error', 'No existen usuarios registrados, seleccionar la opción REGISTRARSE en el menú')               
+        except NameError:
+            break     
+
+       
+	      
+        

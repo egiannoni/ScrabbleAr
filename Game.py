@@ -12,16 +12,14 @@ BUTTON_WIDTH = 2
 BUTTON_HEIGHT = 1
 BUTTON_PADDING = 1
 BUTTON_SIZE = BUTTON_WIDTH, BUTTON_HEIGHT
-LETTER_POINTS = {
-            'A': 1, 'B': 3, 'C': 2, 'D': 2, 'E': 1, 'F': 4, 'G': 2, 'H': 4, 'I': 1, 'J': 6, 'K': 8,
-            'L': 4, 'M': 3, 'N': 1, 'Ñ': 8, 'O': 1, 'P': 3, 'Q': 8, 'R': 1, 'S': 1,
-            'T': 1, 'U': 1, 'V': 4, 'W': 8, 'X': 8, 'Y': 4, 'Z': 10
-        }
-LETTERS_POOL = {
-            'A': 11, 'B': 3, 'C': 4, 'D': 4, 'E': 11, 'F': 2, 'G': 2, 'H': 2, 'I': 6, 'J': 2, 'K': 1,
-            'L': 4, 'M': 3, 'N': 5, 'Ñ': 1, 'O': 8, 'P': 2, 'Q': 1, 'R': 4, 'S': 7,
-            'T': 4, 'U': 6, 'V': 2, 'W': 1, 'X': 1, 'Y': 1, 'Z': 1
-        }
+
+LETTER_POINTS = {'A': 1, 'B': 3, 'C': 2, 'D': 2, 'E': 1, 'F': 4, 'G': 2, 'H': 4, 'I': 1, 'J': 6, 'K': 8,
+                 'L': 4, 'LL': 8, 'M': 3, 'N': 1, 'Ñ': 8, 'O': 1, 'P': 3, 'Q': 8, 'R': 1, 'RR': 8, 'S': 1,
+                 'T': 1, 'U': 1, 'V': 4, 'W': 8, 'X': 8, 'Y': 4, 'Z': 10 }
+
+LETTERS_POOL = { 'A': 11, 'B': 3, 'C': 4, 'D': 4, 'E': 11, 'F': 2, 'G': 2, 'H': 2, 'I': 6, 'J': 2, 'K': 1,
+                 'L': 4, 'LL': 1, 'M': 3, 'N': 5, 'Ñ': 1, 'O': 8, 'P': 2, 'Q': 1, 'R': 4, 'RR': 1, 'S': 7,
+                 'T': 4, 'U': 6, 'V': 2, 'W': 1, 'X': 1, 'Y': 1, 'Z': 1 }
 
 def colorize_buttons(button):
     '''Colorizes buttons'''
@@ -98,53 +96,39 @@ def main():
     user_total_score = 0
     ai_total_score = 0
     letter_changes_available = 3
-    # Layout
-    # AI letter array column layout
-    top_column_layout_1 = [
-        [sg.Button(key=i + ARRAY_LENGTH, button_text='?', size=BUTTON_SIZE, pad=((BUTTON_PADDING, BUTTON_PADDING), (8, BUTTON_PADDING)), enable_events=True, disabled=True) for i in range(ARRAY_LENGTH)]
+    #### Layouts ####
+    
+    # Board column layout
+    ColumnBoard= [ [sg.Button(key=(i, j), button_text='{}'.format(letter_matrix[i][j][0]), button_color=(None, letter_matrix[i][j][1]), size=BUTTON_SIZE, pad=(BUTTON_PADDING, BUTTON_PADDING), enable_events=True) for i in range(BOARD_WIDTH)] for j in range(BOARD_HEIGHT)
     ]
-    # Clock column layout
-    top_column_layout_2 = [
-        [sg.Text('Tiempo restante de juego:', key='-CLOCK_TEXT-')],
-        [sg.Text(key='-CLOCK-', size=(8, 2), font=('Helvetica', 10), justification='center')]
-    ]
-    # AI letter array and clock layout
-    layout = [
-        [sg.Column(top_column_layout_1), sg.VerticalSeparator(), sg.Column(top_column_layout_2)],
-        [sg.Text('_' * ((BUTTON_WIDTH + BUTTON_PADDING) * BOARD_WIDTH + 4), key='-TOP_H_SEPARATOR-')]
-    ]
-    # AI score layout
-    layout += [
-        [sg.Text('Puntaje del ordenador:', key='-AI_TOTAL_SCORE_TEXT-', size=(16, 1), font=('Helvetica', 10)),
-        sg.Text(key='-AI_TOTAL_SCORE-', size=(8, 1), font=('Helvetica', 11))]
-    ]
-    # Board layout
-    layout += [
-        [sg.Button(key=(i, j), button_text='{}'.format(letter_matrix[i][j][0]), button_color=(None, letter_matrix[i][j][1]), size=BUTTON_SIZE, pad=(BUTTON_PADDING, BUTTON_PADDING), enable_events=True) for i in range(BOARD_WIDTH)] for j in range(BOARD_HEIGHT)
-    ]
-    # User score layout
-    layout += [
-        [sg.Text('Puntaje del usuario:', key='-USER_TOTAL_SCORE_TEXT-', size=(14, 1), font=('Helvetica', 10)),
-        sg.Text(key='-USER_TOTAL_SCORE-', size=(8, 1), font=('Helvetica', 11))]
-    ]
-    # User letter array column layout
-    bottom_column_layout_1 = [
-        [sg.Button(key=i, button_text=user_letter_array[i], size=BUTTON_SIZE, pad=((BUTTON_PADDING, BUTTON_PADDING), (8, BUTTON_PADDING)), enable_events=True) for i in range(ARRAY_LENGTH)],
-        [sg.Button(f'Cambiar letras ({letter_changes_available})', key='-CHANGE_LETTERS-', pad=((28, BUTTON_PADDING), (8, BUTTON_PADDING)))]
-    ]
-    # Score and Exit column layout
-    bottom_column_layout_2 = [
-        [sg.Button('Regresar letras', key='-RETURN_LETTERS-', pad=((28, BUTTON_PADDING), (4, BUTTON_PADDING)))],
-        [sg.Button('Puntuar', key='-SCORE-', pad=((0, BUTTON_PADDING), (8, BUTTON_PADDING))),
-            # sg.Button('Pasar', key='-PASS-', pad=((5, BUTTON_PADDING), (8, BUTTON_PADDING))),
-            #si se habilita pass en "Terminar" poner 5 y 8 y queda bien la ubicación
-            sg.Button('Terminar', key='-FINISH-', pad=((45, BUTTON_PADDING), (8, BUTTON_PADDING)))]
-    ]
-    # User and exit layout
-    layout += [
-        [sg.Text('_' * ((BUTTON_WIDTH + BUTTON_PADDING) * BOARD_WIDTH + 4), key='-BOTTOM_H_SEPARATOR-')],
-        [sg.Column(bottom_column_layout_1), sg.VerticalSeparator(), sg.Column(bottom_column_layout_2)]
-    ]
+    
+    Column1= [ [sg.Button(key=i + ARRAY_LENGTH, button_text='?', size=(5,2), pad=((BUTTON_PADDING, BUTTON_PADDING), (8, BUTTON_PADDING)), enable_events=True, disabled=True) for i in range(ARRAY_LENGTH)],
+               [sg.Text('Puntaje del ordenador:', key='-AI_TOTAL_SCORE_TEXT-', size=(19, 1), font=('Verdana', 10)),sg.Text(key='-AI_TOTAL_SCORE-', size=(8, 1), font=('Verdana', 11))],
+               [sg.Text('_' * ((BUTTON_WIDTH + BUTTON_PADDING) * BOARD_WIDTH + 4), key='-BOTTOM_H_SEPARATOR-')],
+               [sg.Column(ColumnBoard)],
+               [sg.Text('_' * ((BUTTON_WIDTH + BUTTON_PADDING) * BOARD_WIDTH + 4), key='-BOTTOM_H_SEPARATOR-')],
+               [sg.Text('Puntaje del usuario:', key='-USER_TOTAL_SCORE_TEXT-', size=(19, 1), font=('Verdana', 10)), sg.Text(key='-USER_TOTAL_SCORE-', size=(8, 1), font=('Verdana', 11))],
+               [sg.Button(key=i, button_text=user_letter_array[i], size=(5,2), pad=((BUTTON_PADDING, BUTTON_PADDING), (8, BUTTON_PADDING)), enable_events=True) for i in range(ARRAY_LENGTH)] ]
+    
+    Column2=[ [sg.T('Seleccione el nivel con el que desea jugar')],
+              [sg.InputCombo(('Facil', 'Medio', 'Dificil'), size=(20, 1), key='nivel')],
+              [sg.Ok('Comenzar',key='start'),sg.Ok('Configuraciones Avanzadas',key='setting')],
+              [sg.T(' ' * 10)],
+              [sg.T(' ' * 10)],
+              [sg.Text('Tiempo restante de juego:', justification='center', key='-CLOCK_TEXT-')],
+              [sg.Text(key='-CLOCK-', size=(8, 2), font=('Verdana', 10), justification='center')],
+              [sg.T(' ' * 10)],
+              [sg.T(' ' * 10)],
+              [sg.T(' ' * 5),sg.Button('Regresar letras al atril', key='-RETURN_LETTERS-', pad=((28, BUTTON_PADDING), (4, BUTTON_PADDING)))],
+              [sg.T(' ' * 10)],
+              [sg.T(' ' * 20),sg.Button('Puntuar', key='-SCORE-', pad=((0, BUTTON_PADDING), (8, BUTTON_PADDING)))],
+              [sg.T(' ' * 10)],
+              [sg.T(' ' * 8),sg.Button('Terminar', key='-FINISH-', pad=((50, BUTTON_PADDING), (8, BUTTON_PADDING)))],
+              [sg.T(' ' * 10)],
+              [sg.T(' ' * 8),sg.Button(f'Cambiar letras ({letter_changes_available})', key='-CHANGE_LETTERS-', pad=((28, BUTTON_PADDING), (8, BUTTON_PADDING)))] ]
+    
+    
+    layout= [ [sg.Column(Column1),sg.VerticalSeparator(),sg.Column(Column2)]]
     # Window and auxiliary variables
     window = sg.Window('ScrabbleAR', layout, grab_anywhere=True, no_titlebar=True)
     letter_grabbed = ''

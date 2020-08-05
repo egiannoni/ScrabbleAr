@@ -8,27 +8,25 @@ from Jugadores import ListaJugadores
 sg.theme('LightBrown3')
 # sg.theme_button(('#fdae61'))
 # sg.theme_button(('black','#fdae61'))
-column1 = [  [sg.Text('Scrabble Ar', size=(15, 1), justification='center', font=("Verdana", "30", "bold"),text_color='#d7191c')],
-            [sg.T(' ' * 30)],
-            [sg.T(' ' * 30)],
-            [sg.T(' ' * 30)],
-            [sg.Text('usuario:     ',font=("Verdana", "15"),text_color='black'),sg.InputText(size=(30, 1),text_color='black',key='nick')],
-            [sg.T('contraseña:',font=("Verdana", "15"),text_color='black'),sg.InputText(size=(30, 1),text_color='black',key='password',password_char='*')],
-            [],
-            [sg.T(' ' * 20),sg.Button('Iniciar Sesion', button_color=('black','#fdae61'), pad=(50,0))],
-            [sg.T(' ' * 22),sg.Button('Registrarse',button_color=('black','#fdae61'), pad=(48,0))],
-            [sg.T(' ' * 30)],
-            [sg.T(' ' * 30)],
-            [sg.T(' ' * 30)],
-            [sg.Button('Conoce mas del juego',button_color=('black','#fdae61'), pad=(20,0)) ,sg.T(' ' * 5), sg.Button('Nuestro Ranking',button_color=('black','#fdae61'),pad=(45,0))],
-            [sg.T(' ' * 30)],
-            [sg.T(' ' * 30)]]
+column1=[  [sg.Text('Usuario:',font=("Verdana", "9"),text_color='black')],
+           [sg.InputText(size=(20, 1),text_color='black',key='nick'),sg.T(' ' * 10)],
+           [sg.T('Contraseña:',font=("Verdana", "9"),text_color='black')],
+           [sg.InputText(size=(20, 1),text_color='black',key='password',password_char='*')],
+           [sg.T(' ' * 30)],
+           [sg.Button('Iniciar Sesion', button_color=('black','#fdae61'))] ]
+
+column2=[  [sg.Button('Registrarse',button_color=('black','#fdae61'))],
+           [sg.T(' ' * 20)],
+           [sg.Button('Conoce mas del juego',button_color=('black','#fdae61'))],
+           [sg.T(' ' * 20)],
+           [sg.Button('Nuestro Ranking',button_color=('black','#fdae61'))] ]
 
 
-layout = [[sg.Image(r'ScrabbleArBackGround.png',size=(400,350)),sg.VerticalSeparator( ),sg.Column(column1)] ]
-
+layout = [ [sg.Text('Scrabble Ar', size=(15, 1), justification='center', font=("Verdana", "30", "bold"),text_color='#d7191c')], 
+           [sg.Image(r'ScrabbleArBackGround.png',size=(400,350))], 
+           [sg.Column(column1), sg.VSeperator(),sg.Column(column2)] ]
+           
 window1 = sg.Window('ScrabbleAr ',layout)
-
 
 while True:
     event,value=window1.read()

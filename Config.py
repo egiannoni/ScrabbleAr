@@ -38,62 +38,114 @@
 
 # Sofía
 # ------------------------------------------------------------------------------------------------
-class Config():
-    def __init__(self, level):
-        self._game_duration = self.setGameDuration(level)
-        self._level = self.setlevel(level)
-        self._group_of_words = self.setGroupOfWords(level)
-        self._points_per_chip = self.setPointsPerChip()
-        self._string_of_letters = self.setStringOfLetters()
+
+import PySimpleGUI as sg   
+
+## Comentario: Me gustaria que la interfaz este mas prolija pero nose como alinear las letras con 
+## los spin y tmp como dividirla en mas filas.    
+     
+diccionario= ['A','B','C','D','E','F','G','H','I','J','K',
+              'L','M','N','O','P','Q','R','S','T','U','V',
+              'W','X','Y','Z']
+
+layout = [          
+    [sg.Text('Configuración Avanzada', size=(30, 1), justification='center', font=("Helvetica", 25,"bold"),text_color='#d7191c', relief=sg.RELIEF_RIDGE)],         
+    [sg.Frame(layout=[          
+    [sg.Radio('Facil', "nivel", default=True, size=(5,1)), sg.Radio('Medio', "nivel",size=(5,1)),sg.Radio('Dificil', "nivel",size=(5,1))]], title='Seleccione el nivel que desea configurar',title_color='black', relief=sg.RELIEF_SUNKEN, tooltip='Use these to set flags')],         
+    [sg.Text('Duración del turno en segundos:'),sg.Slider(range=(1, 100),key='duration', orientation='h', size=(34, 20), default_value=60)],      
+    [sg.Text('Cantidad de letras', justification='center', size=(15, 1))],      
+    [sg.Text('{}-'.format(letra),size=(3, 1), justification='center', font=("Helvetica",9), relief=sg.RELIEF_RIDGE)for letra in diccionario],
+    [sg.Spin(values=[i for i in range(1, 10)], initial_value=4, size=(2,2),key='{}'.format(letra))for letra in diccionario ],     
+    [sg.Text('_'  * 80)],          
+    [sg.Text('Valores', justification='center', size=(15, 1))],      
+    [sg.Text('{}-'.format(letra),size=(3, 1), justification='center', font=("Helvetica",9), relief=sg.RELIEF_RIDGE)for letra in diccionario],
+    [sg.Spin(values=[i for i in range(1, 10)], initial_value=3, size=(2,2),key='{}'.format(letra))for letra in diccionario ],     
+    [sg.Text('_'  * 80)],            
+    [sg.Button('Guardar'), sg.Cancel()]    
+]      
+
+
+window7 = sg.Window('ScrabbleAr', layout, default_element_size=(40, 1), grab_anywhere=False)      
+
+def main():
+    event, value = window7.read()
+    if value[0] == True:
+        nivel='Facil'
+    if value[1] == True:
+        nivel='Medio'
+    if value[2] == True:
+        nivel='Dificil'
+    duration=value['duration']
+    for letra in diccionario:
+        LETTERS_POOL={}
+        LETTERS_POOL[letra]= value[letra]
     
-    def getGameDuration(self):
-        return self._game_time
-    # Level easy, medium, hard --> 15, 10, 5 minutes
-    def setGameDuration(self, level):
-        if level == 'easy':
-            self._game_duration = 15 * 60
-        elif level == 'medium':
-            self._game_duration = 10 * 60
-        elif level == 'hard':
-            self._game_duration = 5 * 60
+    for letra in diccionario:
+        LETTER_POINTS={}
+        LETTER_POINTS[letra]= value[letra]
     
-    def getlevel(self):
-        return self._level
-    def setlevel(self, level):
-        self._level = level
+    window7.close()     
 
-    def getGroupOfWords(self):
-        return self._group_of_words
-    def setGroupOfWords(self, level):
-        if level == 'easy':
-            self._group_of_words = {'all'}
-        elif level == 'medium' or level == 'hard':
-            self._group_of_words = {'adjectives', 'verbs'}
+if __name__ == '__main__':
+    main()
 
-    def getPointsPerChip(self):
-        return self._points_per_chip
-    def setPointsPerChip(self):
-        points = {
-            'A': 1, 'B': 3, 'C': 2, 'D': 2, 'E': 1, 'F': 4, 'G': 2, 'H': 4, 'I': 1, 'J': 6, 'K': 8,
-            '1': 4, 'LL': 8, 'M': 3, 'N': 1, 'Ñ': 8, 'O': 1, 'P': 3, 'Q': 8, 'R': 1, 'RR': 8, 'S': 1,
-            'T': 1, 'U': 1, 'V': 4, 'W': 8, 'X': 8, 'Y': 4, 'Z': 10
-        }
-        self._points_per_chip = points
+#############################################################################
+# class Config():
+#     def __init__(self, level):
+#         self._game_duration = self.setGameDuration(level)
+#         self._level = self.setlevel(level)
+#         self._group_of_words = self.setGroupOfWords(level)
+#         self._points_per_chip = self.setPointsPerChip()
+#         self._string_of_letters = self.setStringOfLetters()
+    
+#     def getGameDuration(self):
+#         return self._game_time
+#     # Level easy, medium, hard --> 15, 10, 5 minutes
+#     def setGameDuration(self, level):
+#         if level == 'easy':
+#             self._game_duration = 15 * 60
+#         elif level == 'medium':
+#             self._game_duration = 10 * 60
+#         elif level == 'hard':
+#             self._game_duration = 5 * 60
+    
+#     def getlevel(self):
+#         return self._level
+#     def setlevel(self, level):
+#         self._level = level
 
-    def getStringOfLetters(self):
-        return self._string_of_letters
-    def setStringOfLetters(self):
-        quantities = {
-            'A': 11, 'B': 3, 'C': 4, 'D': 4, 'E': 11, 'F': 2, 'G': 2, 'H': 2, 'I': 6, 'J': 2, 'K': 1,
-            'L': 4, 'LL': 1, 'M': 3, 'N': 5, 'Ñ': 1, 'O': 8, 'P': 2, 'Q': 1, 'R': 4, 'RR': 1, 'S': 7,
-            'T': 4, 'U': 6, 'V': 2, 'W': 1, 'X': 1, 'Y': 1, 'Z': 1
-        }
-        string = ''
-        for k, v in quantities.items():
-            for i in range(v):
-                string += k
-        print(string)
-        self._string_of_letters = string
+#     def getGroupOfWords(self):
+#         return self._group_of_words
+#     def setGroupOfWords(self, level):
+#         if level == 'easy':
+#             self._group_of_words = {'all'}
+#         elif level == 'medium' or level == 'hard':
+#             self._group_of_words = {'adjectives', 'verbs'}
+
+#     def getPointsPerChip(self):
+#         return self._points_per_chip
+#     def setPointsPerChip(self):
+#         points = {
+#             'A': 1, 'B': 3, 'C': 2, 'D': 2, 'E': 1, 'F': 4, 'G': 2, 'H': 4, 'I': 1, 'J': 6, 'K': 8,
+#             '1': 4, 'LL': 8, 'M': 3, 'N': 1, 'Ñ': 8, 'O': 1, 'P': 3, 'Q': 8, 'R': 1, 'RR': 8, 'S': 1,
+#             'T': 1, 'U': 1, 'V': 4, 'W': 8, 'X': 8, 'Y': 4, 'Z': 10
+#         }
+#         self._points_per_chip = points
+
+#     def getStringOfLetters(self):
+#         return self._string_of_letters
+#     def setStringOfLetters(self):
+#         quantities = {
+#             'A': 11, 'B': 3, 'C': 4, 'D': 4, 'E': 11, 'F': 2, 'G': 2, 'H': 2, 'I': 6, 'J': 2, 'K': 1,
+#             'L': 4, 'LL': 1, 'M': 3, 'N': 5, 'Ñ': 1, 'O': 8, 'P': 2, 'Q': 1, 'R': 4, 'RR': 1, 'S': 7,
+#             'T': 4, 'U': 6, 'V': 2, 'W': 1, 'X': 1, 'Y': 1, 'Z': 1
+#         }
+#         string = ''
+#         for k, v in quantities.items():
+#             for i in range(v):
+#                 string += k
+#         print(string)
+#         self._string_of_letters = string
 
 # SIGUIENTES DOS LÍNEAS SON DE PRUEBA: POR QUÉ RETORNA NONE???
 # c = Configuracion('easy')

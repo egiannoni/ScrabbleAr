@@ -3,7 +3,8 @@ import random
 import time
 import pattern.es
 from itertools import permutations
-import Config
+import Config 
+
 
 BOARD_WIDTH = 15
 BOARD_HEIGHT = 15
@@ -14,12 +15,13 @@ BUTTON_PADDING = 1
 BUTTON_SIZE = BUTTON_WIDTH, BUTTON_HEIGHT
 
 LETTER_POINTS = {'A': 1, 'B': 3, 'C': 2, 'D': 2, 'E': 1, 'F': 4, 'G': 2, 'H': 4, 'I': 1, 'J': 6, 'K': 8,
-                 'L': 4, 'LL': 8, 'M': 3, 'N': 1, 'Ñ': 8, 'O': 1, 'P': 3, 'Q': 8, 'R': 1, 'RR': 8, 'S': 1,
-                 'T': 1, 'U': 1, 'V': 4, 'W': 8, 'X': 8, 'Y': 4, 'Z': 10 }
+                  'L': 4, 'LL': 8, 'M': 3, 'N': 1, 'Ñ': 8, 'O': 1, 'P': 3, 'Q': 8, 'R': 1, 'RR': 8, 'S': 1,
+                  'T': 1, 'U': 1, 'V': 4, 'W': 8, 'X': 8, 'Y': 4, 'Z': 10 }
 
 LETTERS_POOL = { 'A': 11, 'B': 3, 'C': 4, 'D': 4, 'E': 11, 'F': 2, 'G': 2, 'H': 2, 'I': 6, 'J': 2, 'K': 1,
-                 'L': 4, 'LL': 1, 'M': 3, 'N': 5, 'Ñ': 1, 'O': 8, 'P': 2, 'Q': 1, 'R': 4, 'RR': 1, 'S': 7,
-                 'T': 4, 'U': 6, 'V': 2, 'W': 1, 'X': 1, 'Y': 1, 'Z': 1 }
+                  'L': 4, 'LL': 1, 'M': 3, 'N': 5, 'Ñ': 1, 'O': 8, 'P': 2, 'Q': 1, 'R': 4, 'RR': 1, 'S': 7,
+                  'T': 4, 'U': 6, 'V': 2, 'W': 1, 'X': 1, 'Y': 1, 'Z': 1 }
+
 
 def colorize_buttons(button):
     '''Colorizes buttons'''
@@ -147,7 +149,7 @@ def main():
     user_letter_array_positions_updated = []
     letters_in_use = []
     # Time variables
-    game_duration = 600 # Se obtiene de la configuracion, de acuerdo al nivel elegido (Config.py)
+    game_duration =60
     start_time = time.time()
     finish_time = start_time + game_duration
 
@@ -155,6 +157,8 @@ def main():
     # Loop
     while True:
         event, values = window.read(timeout=10)
+        if event == 'setting':
+            Config.main()
         if event == None:
             break
         if endgame:

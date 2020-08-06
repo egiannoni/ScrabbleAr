@@ -19,7 +19,7 @@ column1=[  [sg.Text('Usuario:',font=("Verdana", "9"),text_color='black')],
 
 column2=[  [sg.Button('Registrarse',button_color=('black','#fdae61'))],
            [sg.T(' ' * 20)],
-           [sg.Ok('Configuraciones Avanzadas',key='setting')],
+           [sg.Button('Configuraciones Avanzadas',button_color=('black','#fdae61'))],
            [sg.T(' ' * 20)],
            [sg.Button('Conoce mas del juego',button_color=('black','#fdae61'))],
            [sg.T(' ' * 20)],
@@ -36,7 +36,7 @@ while True:
     event,value=window1.read()
     if event == None:
         break
-    if event == 'setting':
+    if event == 'Configuraciones Avanzadas':
         Config.main()
     if event == 'Conoce mas del juego':
         ConoceMas.main()

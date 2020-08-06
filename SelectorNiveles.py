@@ -21,12 +21,15 @@ def main ():
         if event == 'Fácil':
             window3.close()
             GameEasy.main()
+            break
         if event == 'Medio':
             window3.close()
             GameMedium.main()
+            break
         if event == 'Difícil':
             window3.close()
             GameHard.main()
+            break
 
 
 if __name__ == '__main__':

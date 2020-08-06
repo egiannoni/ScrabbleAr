@@ -3,7 +3,7 @@ import random
 import time
 import pattern.es
 from itertools import permutations
-import Config 
+import Config
 
 
 BOARD_WIDTH = 15
@@ -99,11 +99,11 @@ def main():
     ai_total_score = 0
     letter_changes_available = 3
     #### Layouts ####
-    
+
     # Board column layout
     ColumnBoard= [ [sg.Button(key=(i, j), button_text='{}'.format(letter_matrix[i][j][0]), button_color=(None, letter_matrix[i][j][1]), size=BUTTON_SIZE, pad=(BUTTON_PADDING, BUTTON_PADDING), enable_events=True) for i in range(BOARD_WIDTH)] for j in range(BOARD_HEIGHT)
     ]
-    
+
     Column1= [ [sg.Button(key=i + ARRAY_LENGTH, button_text='?', size=(5,2), pad=((BUTTON_PADDING, BUTTON_PADDING), (8, BUTTON_PADDING)), enable_events=True, disabled=True) for i in range(ARRAY_LENGTH)],
                [sg.Text('Puntaje del ordenador:', key='-AI_TOTAL_SCORE_TEXT-', size=(19, 1), font=('Verdana', 10)),sg.Text(key='-AI_TOTAL_SCORE-', size=(8, 1), font=('Verdana', 11))],
                [sg.Text('_' * ((BUTTON_WIDTH + BUTTON_PADDING) * BOARD_WIDTH + 4), key='-BOTTOM_H_SEPARATOR-')],
@@ -111,10 +111,10 @@ def main():
                [sg.Text('_' * ((BUTTON_WIDTH + BUTTON_PADDING) * BOARD_WIDTH + 4), key='-BOTTOM_H_SEPARATOR-')],
                [sg.Text('Puntaje del usuario:', key='-USER_TOTAL_SCORE_TEXT-', size=(19, 1), font=('Verdana', 10)), sg.Text(key='-USER_TOTAL_SCORE-', size=(8, 1), font=('Verdana', 11))],
                [sg.Button(key=i, button_text=user_letter_array[i], size=(5,2), pad=((BUTTON_PADDING, BUTTON_PADDING), (8, BUTTON_PADDING)), enable_events=True) for i in range(ARRAY_LENGTH)] ]
-    
+
     Column2=[ [sg.T('Seleccione el nivel con el que desea jugar')],
               [sg.InputCombo(('Facil', 'Medio', 'Dificil'), size=(20, 1), key='nivel')],
-              [sg.Ok('Comenzar',key='start'),sg.Ok('Configuraciones Avanzadas',key='setting')],
+              [sg.Ok('Comenzar',key='start')],
               [sg.T(' ' * 10)],
               [sg.T(' ' * 10)],
               [sg.Text('Tiempo restante de juego:', justification='center', key='-CLOCK_TEXT-')],
@@ -128,8 +128,8 @@ def main():
               [sg.T(' ' * 8),sg.Button('Terminar', key='-FINISH-', pad=((50, BUTTON_PADDING), (8, BUTTON_PADDING)))],
               [sg.T(' ' * 10)],
               [sg.T(' ' * 8),sg.Button(f'Cambiar letras ({letter_changes_available})', key='-CHANGE_LETTERS-', pad=((28, BUTTON_PADDING), (8, BUTTON_PADDING)))] ]
-    
-    
+
+
     layout= [ [sg.Column(Column1),sg.VerticalSeparator(),sg.Column(Column2)]]
     # Window and auxiliary variables
     window = sg.Window('ScrabbleAR', layout, grab_anywhere=True, no_titlebar=True)
@@ -157,8 +157,6 @@ def main():
     # Loop
     while True:
         event, values = window.read(timeout=10)
-        if event == 'setting':
-            Config.main()
         if event == None:
             break
         if endgame:

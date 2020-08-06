@@ -29,9 +29,9 @@ def colorize_buttons(button):
     (i, j) = button
     color = '#ffffbf' # lo que era 'grey'
     if i == j or i + j == 14:
-        color = '#d7191c' # lo que era 'red'
+        color = '#a50026' # lo que era 'red'(pongo una más intenso para destacarlo del salmón)
     if i in {0, 7, 14} and j in {0, 7, 14}:
-        color = 'Brown' # lo que era 'yellow'
+        color = '#f46d43' # lo que era 'yellow'(ahora un salmón)
     s = set((i, j))
     if s == {0, 3} or s == {0,11} or s == {3, 14} or s == {3, 14} or s == {11, 14}:
         color = '#abd9e9' # lo que era 'green'
@@ -54,13 +54,13 @@ def score(word, letter_matrix, letter_matrix_positions_used):
     for letter in word:
         points = 0
         points += LETTER_POINTS[letter.upper()]
-        if letter_matrix[letter_matrix_positions_used[0][0]][letter_matrix_positions_used[0][1]][1] == 'black':
+        if letter_matrix[letter_matrix_positions_used[0][0]][letter_matrix_positions_used[0][1]][1] == '#f46d43':
             points -= 5
         if letter_matrix[letter_matrix_positions_used[0][0]][letter_matrix_positions_used[0][1]][1] == '#abd9e9':
             points *= 2
         if letter_matrix[letter_matrix_positions_used[0][0]][letter_matrix_positions_used[0][1]][1] == '#2c7bb6':
             points -= 1
-        if letter_matrix[letter_matrix_positions_used[0][0]][letter_matrix_positions_used[0][1]][1] == '#d7191c':
+        if letter_matrix[letter_matrix_positions_used[0][0]][letter_matrix_positions_used[0][1]][1] == '#a50026':
             points -= 3
         letter_matrix_positions_used.pop(0)
         total += points

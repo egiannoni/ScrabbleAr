@@ -5,7 +5,8 @@ import Registro
 import Game
 from Jugadores import ListaJugadores
 import Database
- 
+import Config
+
 sg.theme('LightBrown3')
 # sg.theme_button(('#fdae61'))
 # sg.theme_button(('black','#fdae61'))
@@ -18,21 +19,25 @@ column1=[  [sg.Text('Usuario:',font=("Verdana", "9"),text_color='black')],
 
 column2=[  [sg.Button('Registrarse',button_color=('black','#fdae61'))],
            [sg.T(' ' * 20)],
+           [sg.Ok('Configuraciones Avanzadas',key='setting')],
+           [sg.T(' ' * 20)],
            [sg.Button('Conoce mas del juego',button_color=('black','#fdae61'))],
            [sg.T(' ' * 20)],
            [sg.Button('Nuestro Ranking',button_color=('black','#fdae61'))] ]
 
 
-layout = [ [sg.Text('Scrabble Ar', size=(15, 1), justification='center', font=("Verdana", "30", "bold"),text_color='#d7191c')], 
-           [sg.Image(r'ScrabbleArBackGround.png',size=(400,350))], 
+layout = [ [sg.Text('Scrabble Ar', size=(15, 1), justification='center', font=("Verdana", "30", "bold"),text_color='#d7191c')],
+           [sg.Image(r'ScrabbleArBackGround.png',size=(400,350))],
            [sg.Column(column1), sg.VSeperator(),sg.Column(column2)] ]
-           
+
 window1 = sg.Window('ScrabbleAr ',layout)
 
 while True:
     event,value=window1.read()
     if event == None:
         break
+    if event == 'setting':
+        Config.main()
     if event == 'Conoce mas del juego':
         ConoceMas.main()
     if event == 'Nuestro Ranking':
@@ -45,7 +50,7 @@ while True:
         usuario= value['nick']
         password= value['password']
         lista_jugadores= ListaJugadores()
-        
+
         a = Database.abro_base()
         try:
             if a != None:
@@ -62,10 +67,6 @@ while True:
                 else:
                     sg.SystemTray.notify('Error', 'Los datos ingresados no son correctos ')
             else:
-                sg.SystemTray.notify('Error', 'No existen usuarios registrados, seleccionar la opción REGISTRARSE en el menú')               
+                sg.SystemTray.notify('Error', 'No existen usuarios registrados, seleccionar la opción REGISTRARSE en el menú')
         except NameError:
-            break     
-
-       
-	      
-        
+            break

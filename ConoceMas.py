@@ -9,8 +9,8 @@ def readme():
 
 def main():
     var_texto=readme()
-    diseño= [[sg.Text(var_texto)]]
-    windowConoceMas = sg.Window('Conocenos  ').layout(diseño)
+    layout= [[sg.Text(var_texto)]]
+    windowConoceMas = sg.Window('Conocenos  ',layout)
     windowConoceMas.read()
 
 

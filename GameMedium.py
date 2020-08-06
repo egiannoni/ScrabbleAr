@@ -149,7 +149,7 @@ def main():
     user_letter_array_positions_updated = []
     letters_in_use = []
     # Time variables
-    game_duration =60
+    game_duration =600
     start_time = time.time()
     finish_time = start_time + game_duration
 

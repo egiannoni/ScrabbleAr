@@ -3,8 +3,8 @@ import random
 import time
 import pattern.es
 from itertools import permutations
-import Config
 
+sg.theme('LightBrown3')
 
 BOARD_WIDTH = 15
 BOARD_HEIGHT = 15
@@ -27,20 +27,20 @@ def colorize_buttons(button):
     '''Colorizes buttons'''
     #This color palette was selected so it can be properly seen by users with different degrees of color blindness
     (i, j) = button
-    color = '#ffffbf' # lo que era 'grey'
+    color = '#ffffbf'
     if i == j or i + j == 14:
-        color = '#d7191c' # lo que era 'red'
+        color = '#d7191c' # los rojo
     if i in {0, 7, 14} and j in {0, 7, 14}:
-        color = '#fdae61' # lo que era 'yellow'
+        color = '#fdae61' # los naranja
     s = set((i, j))
     if s == {0, 3} or s == {0,11} or s == {3, 14} or s == {3, 14} or s == {11, 14}:
-        color = '#abd9e9' # lo que era 'green'
+        color = '#fdae61'
     if s == {2, 6} or s == {2, 8} or s == {3, 7} or s == {6, 12} or s == {7, 11} or s == {8, 12}:
-        color = '#abd9e9'  # lo que era 'green'
+        color = '#d7191c'
     if i in {6, 8} and j in {6, 8}:
-        color = '#2c7bb6'  # lo que era 'blue'
+        color = '#fdae61'
     if s == {1, 5} or s == {1, 9} or s == {5, 13} or s == {9, 13}:
-        color = '#2c7bb6'  # lo que era 'blue'
+        color = '#fdae61'
     return color
 
 def valid(word):
@@ -56,12 +56,8 @@ def score(word, letter_matrix, letter_matrix_positions_used):
         points += LETTER_POINTS[letter.upper()]
         if letter_matrix[letter_matrix_positions_used[0][0]][letter_matrix_positions_used[0][1]][1] == '#fdae61':
             points *= 3
-        if letter_matrix[letter_matrix_positions_used[0][0]][letter_matrix_positions_used[0][1]][1] == '#abd9e9':
-            points *= 2
-        if letter_matrix[letter_matrix_positions_used[0][0]][letter_matrix_positions_used[0][1]][1] == '#2c7bb6':
-            points -= 1
         if letter_matrix[letter_matrix_positions_used[0][0]][letter_matrix_positions_used[0][1]][1] == '#d7191c':
-            points -= 3
+            points *= 2
         letter_matrix_positions_used.pop(0)
         total += points
     return total
@@ -105,16 +101,19 @@ def main():
     ]
 
     Column1= [ [sg.Button(key=i + ARRAY_LENGTH, button_text='?', size=(5,2), pad=((BUTTON_PADDING, BUTTON_PADDING), (8, BUTTON_PADDING)), enable_events=True, disabled=True) for i in range(ARRAY_LENGTH)],
-               [sg.Text('Puntaje del ordenador:', key='-AI_TOTAL_SCORE_TEXT-', size=(19, 1), font=('Verdana', 10)),sg.Text(key='-AI_TOTAL_SCORE-', size=(8, 1), font=('Verdana', 11))],
+               [sg.Text('Puntaje del ordenador:', key='-AI_TOTAL_SCORE_TEXT-', size=(22, 1), font=('Verdana', 10)),sg.Text(key='-AI_TOTAL_SCORE-', size=(8, 1), font=('Verdana', 11))],
                [sg.Text('_' * ((BUTTON_WIDTH + BUTTON_PADDING) * BOARD_WIDTH + 4), key='-BOTTOM_H_SEPARATOR-')],
                [sg.Column(ColumnBoard)],
                [sg.Text('_' * ((BUTTON_WIDTH + BUTTON_PADDING) * BOARD_WIDTH + 4), key='-BOTTOM_H_SEPARATOR-')],
-               [sg.Text('Puntaje del usuario:', key='-USER_TOTAL_SCORE_TEXT-', size=(19, 1), font=('Verdana', 10)), sg.Text(key='-USER_TOTAL_SCORE-', size=(8, 1), font=('Verdana', 11))],
+               [sg.Text('Puntaje del usuario:', key='-USER_TOTAL_SCORE_TEXT-', size=(22, 1), font=('Verdana', 10)), sg.Text(key='-USER_TOTAL_SCORE-', size=(8, 1), font=('Verdana', 11))],
                [sg.Button(key=i, button_text=user_letter_array[i], size=(5,2), pad=((BUTTON_PADDING, BUTTON_PADDING), (8, BUTTON_PADDING)), enable_events=True) for i in range(ARRAY_LENGTH)] ]
 
-    Column2=[ [sg.T('Seleccione el nivel con el que desea jugar')],
-              [sg.InputCombo(('Facil', 'Medio', 'Dificil'), size=(20, 1), key='nivel')],
-              [sg.Ok('Comenzar',key='start')],
+    Column2=[ [sg.T(' ' * 10)],
+              [sg.T(' ' * 10)],
+              [sg.Text('Nivel:',font=("Verdana", "9"),text_color='black')],
+              [sg.Text('Fácil', size=(15, 1), justification='center', font=("Verdana", "30", "bold"),text_color='#d7191c')],
+              [sg.T(' ' * 10)],
+              [sg.T(' ' * 10)],
               [sg.T(' ' * 10)],
               [sg.T(' ' * 10)],
               [sg.Text('Tiempo restante de juego:', justification='center', key='-CLOCK_TEXT-')],

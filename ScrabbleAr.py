@@ -2,14 +2,12 @@ import PySimpleGUI as sg
 import ConoceMas
 import Ranking
 import Registro
-import Game
+import SelectorNiveles
 from Jugadores import ListaJugadores
 import Database
 import Config
 
 sg.theme('LightBrown3')
-# sg.theme_button(('#fdae61'))
-# sg.theme_button(('black','#fdae61'))
 column1=[  [sg.Text('Usuario:',font=("Verdana", "9"),text_color='black')],
            [sg.InputText(size=(20, 1),text_color='black',key='nick'),sg.T(' ' * 10)],
            [sg.T('Contraseña:',font=("Verdana", "9"),text_color='black')],
@@ -45,8 +43,6 @@ while True:
     if event == 'Registrarse':
         Registro.main()
     if event == 'Iniciar Sesion':
-        # window1.close()
-        # Game.main()
         usuario= value['nick']
         password= value['password']
         lista_jugadores= ListaJugadores()
@@ -63,7 +59,7 @@ while True:
                 if usuario_valido:
                     print ('validacion con exito')
                     window1.close()
-                    Game.main()
+                    SelectorNiveles.main()
                 else:
                     sg.SystemTray.notify('Error', 'Los datos ingresados no son correctos ')
             else:

@@ -3,9 +3,9 @@ import random
 import time
 import pattern.es
 from itertools import permutations
-import Config
 
 
+sg.theme('LightBrown3')
 BOARD_WIDTH = 15
 BOARD_HEIGHT = 15
 ARRAY_LENGTH = 7
@@ -56,7 +56,7 @@ def score(word, letter_matrix, letter_matrix_positions_used):
         points += LETTER_POINTS[letter.upper()]
         if letter_matrix[letter_matrix_positions_used[0][0]][letter_matrix_positions_used[0][1]][1] == '#fdae61':
             points *= 3
-        if letter_matrix[letter_matrix_positions_used[0][0]][letter_matrix_positions_used[0][1]][1] == '#d7191c'
+        if letter_matrix[letter_matrix_positions_used[0][0]][letter_matrix_positions_used[0][1]][1] == '#d7191c':
             points *= 2
         if letter_matrix[letter_matrix_positions_used[0][0]][letter_matrix_positions_used[0][1]][1] == '#2c7bb6':
             points -= 1

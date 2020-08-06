@@ -3,9 +3,9 @@ import random
 import time
 import pattern.es
 from itertools import permutations
-import Config
 
 
+sg.theme('LightBrown3')
 BOARD_WIDTH = 15
 BOARD_HEIGHT = 15
 ARRAY_LENGTH = 7

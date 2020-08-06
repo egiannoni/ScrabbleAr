@@ -19,12 +19,15 @@ def main ():
     event, values = window3.read()
     while True:
         if event == 'Fácil':
+            window3.close()
             GameEasy.main()
         if event == 'Medio':
+            window3.close()
             GameMedium.main()
         if event == 'Difícil':
+            window3.close()
             GameHard.main()
 
-    window3.close()
+
 if __name__ == '__main__':
     main()

@@ -1,5 +1,3 @@
-import pickle
-
 class Jugador:
     """  Creates the gamers from information input on the registration """
 
@@ -57,17 +55,14 @@ class ListaJugadores:
 
     def mostrar_informacion(self):
         print("La información del fichero externo es la siguiente:")
-        for jugador in self.jugadores:
+        for jugador in self._jugadores:
             print( jugador.__str__() )
 
     def mostrar_ranking(self):
         lista={}
-        for jugador in self.jugadores:
+        for jugador in self._jugadores:
             nick=jugador.get_nick()
             puntos=jugador.get_puntos()
             lista[nick]=puntos        
         rank = sorted(lista.items(),key=lambda jugador: jugador[1],reverse=True)
-        for i in rank :
-            print( " +  el nick {} tiene {} puntos.".format(i[0], i[1]))
-
-
+        return rank

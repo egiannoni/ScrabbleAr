@@ -1,5 +1,5 @@
 import PySimpleGUI as sg
-from Jugadores import ListaJugadores
+import Database
 
 def ventana(lista):
     diseño=[ [sg.Listbox(lista, size=(30,15), key='ranking')],
@@ -8,8 +8,11 @@ def ventana(lista):
     return window
 
 def main():
-    lista_jugadores=ListaJugadores()
-    rank=lista_jugadores.mostrar_informacion()
+    try:
+        lista_jugadores=Database.abro_base()
+        rank=lista_jugadores.mostrar_ranking()
+    except NameError:
+        rank= 'No hay jugadores para mostrar'
     window3=ventana(rank)
     event, values = window3.read()
     if event == 'ok':

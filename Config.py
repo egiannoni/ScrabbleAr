@@ -41,8 +41,9 @@
 
 import PySimpleGUI as sg   
 
-## Comentario: Me gustaria que la interfaz este mas prolija pero nose como alinear las letras con 
-## los spin y tmp como dividirla en mas filas.    
+
+sg.theme('LightBrown3')
+
      
 diccionario= ['A','B','C','D','E','F','G','H','I','J','K',
               'L','M','N','O','P','Q','R','S','T','U','V',
@@ -50,6 +51,7 @@ diccionario= ['A','B','C','D','E','F','G','H','I','J','K',
 
 layout = [          
     [sg.Text('Configuración Avanzada', size=(30, 1), justification='center', font=("Helvetica", 25,"bold"),text_color='#d7191c', relief=sg.RELIEF_RIDGE)],         
+    [sg.Text(' '  * 80)],
     [sg.Frame(layout=[          
     [sg.Radio('Facil', "nivel", default=True, size=(5,1)), sg.Radio('Medio', "nivel",size=(5,1)),sg.Radio('Dificil', "nivel",size=(5,1))]], title='Seleccione el nivel que desea configurar',title_color='black', relief=sg.RELIEF_SUNKEN, tooltip='Use these to set flags')],         
     [sg.Text('Duración del turno en segundos:'),sg.Slider(range=(1, 100),key='duration', orientation='h', size=(34, 20), default_value=60)],      
@@ -60,32 +62,39 @@ layout = [
     [sg.Text('Valores', justification='center', size=(15, 1))],      
     [sg.Text('{}-'.format(letra),size=(3, 1), justification='center', font=("Helvetica",9), relief=sg.RELIEF_RIDGE)for letra in diccionario],
     [sg.Spin(values=[i for i in range(1, 10)], initial_value=3, size=(2,2),key='{}'.format(letra))for letra in diccionario ],     
-    [sg.Text('_'  * 80)],            
-    [sg.Button('Guardar'), sg.Cancel()]    
+    [sg.Text('_'  * 80)],   
+    [sg.Text(' '  * 80)],         
+    [sg.Button('Guardar',button_color=('black','#fdae61')), sg.Button('Cancelar',button_color=('black','#fdae61'))]    
 ]      
 
 
 window7 = sg.Window('ScrabbleAr', layout, default_element_size=(40, 1), grab_anywhere=False)      
 
 def main():
-    event, value = window7.read()
-    if value[0] == True:
-        nivel='Facil'
-    if value[1] == True:
-        nivel='Medio'
-    if value[2] == True:
-        nivel='Dificil'
-    duration=value['duration']
-    for letra in diccionario:
-        LETTERS_POOL={}
-        LETTERS_POOL[letra]= value[letra]
-    
-    for letra in diccionario:
-        LETTER_POINTS={}
-        LETTER_POINTS[letra]= value[letra]
-    
-    window7.close()     
-
+    while True: 
+        event,value = window7.read()    
+        if event == 'Cancelar':
+            window7.close()
+        if event  == 'Guardar':
+            sg.popup('Error',
+                     'Lamentablemente la configuración de niveles no está disponible en esta versión', 
+                     'Compruebe en su proxima actualización.')
+            window7.close()   
+#        if value[0] == True:
+#            nivel='Facil'
+#        if value[1] == True:
+#            nivel='Medio'
+#        if value[2] == True:
+#            nivel='Dificil'
+#        duration=value['duration']
+#        for letra in diccionario:
+#            LETTERS_POOL={}
+#            LETTERS_POOL[letra]= value[letra]
+#        
+#        for letra in diccionario:
+#            LETTER_POINTS={}
+#            LETTER_POINTS[letra]= value[letra]
+        
 if __name__ == '__main__':
     main()
 

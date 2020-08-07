@@ -57,11 +57,11 @@ layout = [
     [sg.Text('Duración del turno en segundos:', key='-T3-'),sg.Slider(range=(1, 100),key='duration', orientation='h', size=(34, 20), default_value=60)],      
     [sg.Text('Cantidad de letras', key='-T4-', justification='center', size=(15, 1))],      
     [sg.Text('{}-'.format(letra), key='-TT{}-'.format(letra),size=(3, 1), justification='center', font=("Helvetica",9), relief=sg.RELIEF_RIDGE)for letra in diccionario],
-    [sg.Spin(values=[i for i in range(1, 10)], initial_value=4, size=(2,2),key='{}'.format(letra))for letra in diccionario ],     
+    [sg.Spin(values=[i for i in range(1, 10)], initial_value=4, size=(2,2),key='-S1_{}-'.format(letra))for letra in diccionario ],     
     [sg.Text('_'  * 80, key='-T5-')],          
     [sg.Text('Valores', justification='center', size=(15, 1), key='-T6-')],      
     [sg.Text('{}-'.format(letra), key='-TTT{}-'.format(letra),size=(3, 1), justification='center', font=("Helvetica",9), relief=sg.RELIEF_RIDGE)for letra in diccionario],
-    [sg.Spin(values=[i for i in range(1, 10)], initial_value=3, size=(2,2),key='{}'.format(letra))for letra in diccionario ],     
+    [sg.Spin(values=[i for i in range(1, 10)], initial_value=3, size=(2,2),key='-S2_{}-'.format(letra))for letra in diccionario ],     
     [sg.Text('_'  * 80, key='-T7-')],   
     [sg.Text(' '  * 80, key='-T8-')],         
     [sg.Button('Guardar', key='-SAVE-',button_color=('black','#fdae61')), sg.Button('Cancelar', key='-CANCEL-', button_color=('black','#fdae61'))]    

@@ -153,7 +153,7 @@ def main():
               [sg.T(' ' * 8),sg.Button(f'Cambiar letras ({letter_changes_available})', key='-CHANGE_LETTERS-', pad=((28, BUTTON_PADDING), (8, BUTTON_PADDING)))] ]
 
 
-    layout= [ [sg.Column(Column1, key='-C3-'),sg.VerticalSeparator(key='-VS-'),sg.Column(Column2, key='-C4-')]]
+    layout= [ [sg.Column(Column1, key='-C3-'),sg.VerticalSeparator(),sg.Column(Column2, key='-C4-')]]
     # Window and auxiliary variables
     window = sg.Window('ScrabbleAR', layout, grab_anywhere=True, no_titlebar=True)
     letter_grabbed = ''

@@ -26,7 +26,7 @@ column2=[  [sg.Button('Registrarse',button_color=('black','#fdae61'), key='-SIGN
 
 layout = [ [sg.Text('Scrabble Ar', size=(15, 1), justification='center', font=("Verdana", "30", "bold"),text_color='#d7191c', key= '-T7-')],
            [sg.Image(r'ScrabbleArBackGround.png',size=(400,350), key='-T8-')],
-           [sg.Column(column1, key='-C1-'), sg.VSeparator(key='-VS-'),sg.Column(column2, key='-C2-')] ]
+           [sg.Column(column1, key='-C1-'), sg.VerticalSeparator(),sg.Column(column2, key='-C2-')] ]
 
 window1 = sg.Window('ScrabbleAr ',layout)
 

@@ -50,21 +50,21 @@ diccionario= ['A','B','C','D','E','F','G','H','I','J','K',
               'W','X','Y','Z']
 
 layout = [          
-    [sg.Text('Configuración Avanzada', size=(30, 1), justification='center', font=("Helvetica", 25,"bold"),text_color='#d7191c', relief=sg.RELIEF_RIDGE)],         
-    [sg.Text(' '  * 80)],
-    [sg.Frame(layout=[          
-    [sg.Radio('Facil', "nivel", default=True, size=(5,1)), sg.Radio('Medio', "nivel",size=(5,1)),sg.Radio('Dificil', "nivel",size=(5,1))]], title='Seleccione el nivel que desea configurar',title_color='black', relief=sg.RELIEF_SUNKEN, tooltip='Use these to set flags')],         
-    [sg.Text('Duración del turno en segundos:'),sg.Slider(range=(1, 100),key='duration', orientation='h', size=(34, 20), default_value=60)],      
-    [sg.Text('Cantidad de letras', justification='center', size=(15, 1))],      
-    [sg.Text('{}-'.format(letra),size=(3, 1), justification='center', font=("Helvetica",9), relief=sg.RELIEF_RIDGE)for letra in diccionario],
+    [sg.Text('Configuración Avanzada', key='-T1-', size=(30, 1), justification='center', font=("Helvetica", 25,"bold"),text_color='#d7191c', relief=sg.RELIEF_RIDGE)],         
+    [sg.Text(' '  * 80, key='-T2-')],
+    [sg.Frame(key='-F-', layout=[          
+    [sg.Radio('Facil', "nivel", key='-R1-', default=True, size=(5,1)), sg.Radio('Medio', "nivel", key='-R2-',size=(5,1)),sg.Radio('Dificil', "nivel", key='-R3-',size=(5,1))]], title='Seleccione el nivel que desea configurar',title_color='black', relief=sg.RELIEF_SUNKEN, tooltip='Use these to set flags')],         
+    [sg.Text('Duración del turno en segundos:', key='-T3-'),sg.Slider(range=(1, 100),key='duration', orientation='h', size=(34, 20), default_value=60)],      
+    [sg.Text('Cantidad de letras', key='-T4-', justification='center', size=(15, 1))],      
+    [sg.Text('{}-'.format(letra), key='-TT{}-'.format(letra),size=(3, 1), justification='center', font=("Helvetica",9), relief=sg.RELIEF_RIDGE)for letra in diccionario],
     [sg.Spin(values=[i for i in range(1, 10)], initial_value=4, size=(2,2),key='{}'.format(letra))for letra in diccionario ],     
-    [sg.Text('_'  * 80)],          
-    [sg.Text('Valores', justification='center', size=(15, 1))],      
-    [sg.Text('{}-'.format(letra),size=(3, 1), justification='center', font=("Helvetica",9), relief=sg.RELIEF_RIDGE)for letra in diccionario],
+    [sg.Text('_'  * 80, key='-T5-')],          
+    [sg.Text('Valores', justification='center', size=(15, 1), key='-T6-')],      
+    [sg.Text('{}-'.format(letra), key='-TTT{}-'.format(letra),size=(3, 1), justification='center', font=("Helvetica",9), relief=sg.RELIEF_RIDGE)for letra in diccionario],
     [sg.Spin(values=[i for i in range(1, 10)], initial_value=3, size=(2,2),key='{}'.format(letra))for letra in diccionario ],     
-    [sg.Text('_'  * 80)],   
-    [sg.Text(' '  * 80)],         
-    [sg.Button('Guardar',button_color=('black','#fdae61')), sg.Button('Cancelar',button_color=('black','#fdae61'))]    
+    [sg.Text('_'  * 80, key='-T7-')],   
+    [sg.Text(' '  * 80, key='-T8-')],         
+    [sg.Button('Guardar', key='-SAVE-',button_color=('black','#fdae61')), sg.Button('Cancelar', key='-CANCEL-', button_color=('black','#fdae61'))]    
 ]      
 
 
@@ -73,9 +73,9 @@ window7 = sg.Window('ScrabbleAr', layout, default_element_size=(40, 1), grab_any
 def main():
     while True: 
         event,value = window7.read()    
-        if event == 'Cancelar':
+        if event == '-CANCEL-':
             window7.close()
-        if event  == 'Guardar':
+        if event  == '-SAVE-':
             sg.popup('Error',
                      'Lamentablemente la configuración de niveles no está disponible en esta versión', 
                      'Compruebe en su proxima actualización.')

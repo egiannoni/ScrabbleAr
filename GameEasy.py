@@ -23,15 +23,15 @@ LETTERS_POOL = { 'A': 11, 'B': 3, 'C': 4, 'D': 4, 'E': 11, 'F': 2, 'G': 2, 'H': 
                   'T': 4, 'U': 6, 'V': 2, 'W': 1, 'X': 1, 'Y': 1, 'Z': 1 }
 
 
-def colorize_buttons(button):
-    '''Colorizes buttons'''
+def colorize_button(button):
+    '''Colorizes a button'''
     #This color palette was selected so it can be properly seen by users with different degrees of color blindness
     (i, j) = button
     color = '#ffffbf'
     if i == j or i + j == 14:
-        color = '#d7191c' # los rojo
+        color = '#d7191c' # Red
     if i in {0, 7, 14} and j in {0, 7, 14}:
-        color = '#fdae61' # los naranja
+        color = '#fdae61' # Orange
     s = set((i, j))
     if s == {0, 3} or s == {0,11} or s == {3, 14} or s == {3, 14} or s == {11, 14}:
         color = '#fdae61'
@@ -42,6 +42,21 @@ def colorize_buttons(button):
     if s == {1, 5} or s == {1, 9} or s == {5, 13} or s == {9, 13}:
         color = '#fdae61'
     return color
+
+def annotate_button(button):
+    '''Annotates buttons with the corresponding points multiplier, based on its color'''
+    text = ''
+    color = colorize_button(button)
+    if color == '#d7191c': # Red
+        text = 'x2'
+    elif color == '#fdae61': # Orange
+        text = 'x3'
+    return text
+
+
+
+
+
 
 def valid(word):
     '''Returns True if param is in pattern.es and lexicon.es, disregarding case'''
@@ -61,6 +76,18 @@ def score(word, letter_matrix, letter_matrix_positions_used):
         letter_matrix_positions_used.pop(0)
         total += points
     return total
+
+
+
+    
+
+def board_is_empty(string):
+    ''' Checks whether a location in the board is empty, based on its string'''
+    if string == '' or 'x' in string or '+' in string or '-' in string or '/' in string:
+        empty = True
+    else:
+        empty = False
+    return empty
 
 def main():
     # Data structures for the interface to be updated with
@@ -82,7 +109,7 @@ def main():
         all_letters.remove(letter)
 
     # Association between letter positions and colors for scoring in a matrix
-    letter_matrix = [[['', colorize_buttons((i, j))] for i in range(BOARD_WIDTH)] for j in range(BOARD_HEIGHT)]
+    letter_matrix = [[[annotate_button((i, j)), colorize_button((i, j))] for i in range(BOARD_WIDTH)] for j in range(BOARD_HEIGHT)]
 
 
     # Positions for the AI to choose from
@@ -101,35 +128,33 @@ def main():
     ]
 
     Column1= [ [sg.Button(key=i + ARRAY_LENGTH, button_text='?', size=(5,2), pad=((BUTTON_PADDING, BUTTON_PADDING), (8, BUTTON_PADDING)), enable_events=True, disabled=True) for i in range(ARRAY_LENGTH)],
-               [sg.Text('Puntaje del ordenador:', key='-AI_TOTAL_SCORE_TEXT-', size=(22, 1), font=('Verdana', 10)),sg.Text(key='-AI_TOTAL_SCORE-', size=(8, 1), font=('Verdana', 11))],
-               [sg.Text('_' * ((BUTTON_WIDTH + BUTTON_PADDING) * BOARD_WIDTH + 4), key='-BOTTOM_H_SEPARATOR-')],
-               [sg.Column(ColumnBoard)],
-               [sg.Text('_' * ((BUTTON_WIDTH + BUTTON_PADDING) * BOARD_WIDTH + 4), key='-BOTTOM_H_SEPARATOR-')],
-               [sg.Text('Puntaje del usuario:', key='-USER_TOTAL_SCORE_TEXT-', size=(22, 1), font=('Verdana', 10)), sg.Text(key='-USER_TOTAL_SCORE-', size=(8, 1), font=('Verdana', 11))],
+               [sg.Text('Puntaje del ordenador:', key='-AI_TOTAL_SCORE_TEXT-', size=(19, 1), font=('Verdana', 10)),sg.Text(key='-AI_TOTAL_SCORE-', size=(8, 1), font=('Verdana', 11))],
+               [sg.Text('_' * ((BUTTON_WIDTH + BUTTON_PADDING) * BOARD_WIDTH + 4), key='-BOTTOM_H_SEPARATOR1-')],
+               [sg.Column(ColumnBoard, key='-C1-')],
+               [sg.Text('_' * ((BUTTON_WIDTH + BUTTON_PADDING) * BOARD_WIDTH + 4), key='-BOTTOM_H_SEPARATOR2-')],
+               [sg.Text('Puntaje del usuario:', key='-USER_TOTAL_SCORE_TEXT-', size=(19, 1), font=('Verdana', 10)), sg.Text(key='-USER_TOTAL_SCORE-', size=(8, 1), font=('Verdana', 11))],
                [sg.Button(key=i, button_text=user_letter_array[i], size=(5,2), pad=((BUTTON_PADDING, BUTTON_PADDING), (8, BUTTON_PADDING)), enable_events=True) for i in range(ARRAY_LENGTH)] ]
 
-    Column2=[ [sg.T(' ' * 10)],
-              [sg.T(' ' * 10)],
-              [sg.Text('Nivel:',font=("Verdana", "9"),text_color='black')],
-              [sg.Text('Fácil', size=(15, 1), justification='center', font=("Verdana", "30", "bold"),text_color='#d7191c')],
-              [sg.T(' ' * 10)],
-              [sg.T(' ' * 10)],
-              [sg.T(' ' * 10)],
-              [sg.T(' ' * 10)],
+    Column2=[ [sg.T(' ' * 10, key='-t1-')],
+              [sg.T(' ' * 10, key='-t2-')],
+              [sg.Text('Nivel:',font=("Verdana", "9"),text_color='black', key='-t3-')],
+              [sg.Text('Fácil', size=(15, 1), justification='center', font=("Verdana", "30", "bold"),text_color='#d7191c', key='-t4-')],
+              [sg.T(' ' * 10, key='-t5-')],
+              [sg.T(' ' * 10, key='-t6-')],
               [sg.Text('Tiempo restante de juego:', justification='center', key='-CLOCK_TEXT-')],
               [sg.Text(key='-CLOCK-', size=(8, 2), font=('Verdana', 10), justification='center')],
-              [sg.T(' ' * 10)],
-              [sg.T(' ' * 10)],
+              [sg.T(' ' * 10, key='-t7-')],
+              [sg.T(' ' * 10, key='-t8-')],
               [sg.T(' ' * 5),sg.Button('Regresar letras al atril', key='-RETURN_LETTERS-', pad=((28, BUTTON_PADDING), (4, BUTTON_PADDING)))],
-              [sg.T(' ' * 10)],
+              [sg.T(' ' * 10, key='-t9-')],
               [sg.T(' ' * 20),sg.Button('Puntuar', key='-SCORE-', pad=((0, BUTTON_PADDING), (8, BUTTON_PADDING)))],
-              [sg.T(' ' * 10)],
+              [sg.T(' ' * 10, key='-t10-')],
               [sg.T(' ' * 8),sg.Button('Terminar', key='-FINISH-', pad=((50, BUTTON_PADDING), (8, BUTTON_PADDING)))],
-              [sg.T(' ' * 10)],
+              [sg.T(' ' * 10, key='-t11-')],
               [sg.T(' ' * 8),sg.Button(f'Cambiar letras ({letter_changes_available})', key='-CHANGE_LETTERS-', pad=((28, BUTTON_PADDING), (8, BUTTON_PADDING)))] ]
 
 
-    layout= [ [sg.Column(Column1),sg.VerticalSeparator(),sg.Column(Column2)]]
+    layout= [ [sg.Column(Column1, key='-C3-'),sg.VerticalSeparator(key='-VS-'),sg.Column(Column2, key='-C4-')]]
     # Window and auxiliary variables
     window = sg.Window('ScrabbleAR', layout, grab_anywhere=True, no_titlebar=True)
     letter_grabbed = ''
@@ -194,8 +219,8 @@ def main():
                 # Chooses a valid word
                 # Sorts them by length
                 ai_valid_words.sort(key=lambda x: len(x))
-                # Picks the longest
-                ai_word_choice = ai_valid_words.pop() # En dificultad fácil elegiría la más corta (pop(index=0)), en media la del medio (Config.py)
+                # Picks the shortest so it scores less points
+                ai_word_choice = ai_valid_words.pop(0)
                 # Finds place to put the word
                 positions_needed = len(ai_word_choice)
                 while positions_needed:
@@ -233,7 +258,7 @@ def main():
                     if positions_needed == 0:
                         # Checks if it's all available spots
                         for p in letter_matrix_positions_updated:
-                            if p[0] >= BOARD_WIDTH or p[1] >= BOARD_HEIGHT or letter_matrix[p[0]][p[1]][0] != '':
+                            if p[0] >= BOARD_WIDTH or p[1] >= BOARD_HEIGHT or not board_is_empty(letter_matrix[p[0]][p[1]][0]):
                                 # Preparing for the next search
                                 positions_needed = len(ai_word_choice)
                                 first_letter_placement = True
@@ -291,7 +316,7 @@ def main():
                 window[event].Update('{}'.format(user_letter_array[event]))
                 user_letter_array_positions_updated.remove(event)
         # Interaction with game board
-        if type(event) == tuple and letter_matrix[event[0]][event[1]][0] == '' and letter_grabbed != '' and not changing_letters and user_turn:
+        if type(event) == tuple and board_is_empty(letter_matrix[event[0]][event[1]][0]) and letter_grabbed != '' and not changing_letters and user_turn:
             # The first ever letter placement goes in the center
             if first_letter_placement_ever:
                 pos = (BOARD_WIDTH // 2, BOARD_HEIGHT // 2)
@@ -310,7 +335,7 @@ def main():
                     window[(pos[0], pos[1])].Update('{}'.format(letter_grabbed))
                     window.Refresh()
                     time.sleep(0.1)
-                    window[(pos[0], pos[1])].Update('')
+                    window[(pos[0], pos[1])].Update(annotate_button((pos[0], pos[1])))
             else:
                 # The subsequent first letter placement are free
                 if first_letter_placement:
@@ -339,7 +364,7 @@ def main():
                             window[(pos[0] + 1, pos[1])].Update('{}'.format(letter_grabbed))
                             window.Refresh()
                             time.sleep(0.1)
-                            window[(pos[0] + 1, pos[1])].Update('')
+                            window[(pos[0] + 1, pos[1])].Update(annotate_button((pos[0] + 1, pos[1])))
                         except AttributeError:
                             pass
                     elif moves_vertically and event[0] == pos[0] and event[1] - 1 == pos[1]:
@@ -357,7 +382,7 @@ def main():
                             window[(pos[0], pos[1] + 1)].Update('{}'.format(letter_grabbed))
                             window.Refresh()
                             time.sleep(0.1)
-                            window[(pos[0], pos[1] + 1)].Update('')
+                            window[(pos[0], pos[1] + 1)].Update(annotate_button((pos[0], pos[1] + 1)))
                         except AttributeError:
                             pass
                 # Gives a hint to where should the letter go (the exception could raise if the movement would be illegal)
@@ -366,7 +391,7 @@ def main():
                         window[(pos[0] + 1, pos[1])].Update('{}'.format(letter_grabbed))
                         window.Refresh()
                         time.sleep(0.1)
-                        window[(pos[0] + 1, pos[1])].Update('')
+                        window[(pos[0] + 1, pos[1])].Update(annotate_button((pos[0] + 1, pos[1])))
                     except AttributeError:
                         pass
                 # Gives a hint to where should the letter go (the exception could raise if the movement would be illegal)
@@ -375,7 +400,7 @@ def main():
                         window[(pos[0], pos[1] + 1)].Update('{}'.format(letter_grabbed))
                         window.Refresh()
                         time.sleep(0.1)
-                        window[(pos[0], pos[1] + 1)].Update('')
+                        window[(pos[0], pos[1] + 1)].Update(annotate_button((pos[0], pos[1] + 1)))
                     except AttributeError:
                         pass
 
@@ -389,7 +414,7 @@ def main():
             moves_vertically = True
             pos = ()
             for t in letter_matrix_positions_updated:
-                letter_matrix[t[0]][t[1]][0] = ''
+                letter_matrix[t[0]][t[1]][0] = annotate_button(t)
                 window[t].Update('{}'.format(letter_matrix[t[0]][t[1]][0]))
             while user_letter_array_positions_updated:
                 i = user_letter_array_positions_updated.pop()
@@ -480,7 +505,7 @@ def main():
             else:
                 # Reverses current play
                 for t in letter_matrix_positions_updated:
-                    letter_matrix[t[0]][t[1]][0] = ''
+                    letter_matrix[t[0]][t[1]][0] = annotate_button(t)
                     window[t].Update('{}'.format(letter_matrix[t[0]][t[1]][0]))
                 while user_letter_array_positions_updated:
                     i = user_letter_array_positions_updated.pop()

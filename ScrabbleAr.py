@@ -8,25 +8,25 @@ import Database
 import Config
 
 sg.theme('LightBrown3')
-column1=[  [sg.Text('Usuario:',font=("Verdana", "9"),text_color='black')],
+column1=[  [sg.Text('Usuario:',font=("Verdana", "9"),text_color='black', key='-T1-')],
            [sg.InputText(size=(20, 1),text_color='black',key='nick'),sg.T(' ' * 10)],
-           [sg.T('Contraseña:',font=("Verdana", "9"),text_color='black')],
+           [sg.T('Contraseña:',font=("Verdana", "9"),text_color='black', key='-T2-')],
            [sg.InputText(size=(20, 1),text_color='black',key='password',password_char='*')],
-           [sg.T(' ' * 30)],
-           [sg.Button('Iniciar Sesion', button_color=('black','#fdae61'))] ]
+           [sg.T(' ' * 30, key='-T3-')],
+           [sg.Button('Iniciar Sesion', button_color=('black','#fdae61'), key='-LOGIN-')] ]
 
-column2=[  [sg.Button('Registrarse',button_color=('black','#fdae61'))],
-           [sg.T(' ' * 20)],
-           [sg.Button('Configuraciones Avanzadas',button_color=('black','#fdae61'))],
-           [sg.T(' ' * 20)],
-           [sg.Button('Conoce mas del juego',button_color=('black','#fdae61'))],
-           [sg.T(' ' * 20)],
-           [sg.Button('Nuestro Ranking',button_color=('black','#fdae61'))] ]
+column2=[  [sg.Button('Registrarse',button_color=('black','#fdae61'), key='-SIGN_UP-')],
+           [sg.T(' ' * 20, key='-T4-')],
+           [sg.Button('Configuraciones Avanzadas',button_color=('black','#fdae61'), key='-ADVANCED_CONFIG-')],
+           [sg.T(' ' * 20, key='-T5-')],
+           [sg.Button('Conoce mas del juego',button_color=('black','#fdae61'), key='-README-')],
+           [sg.T(' ' * 20, key='-T6-')],
+           [sg.Button('Nuestro Ranking',button_color=('black','#fdae61'), key='-RANKING-')] ]
 
 
-layout = [ [sg.Text('Scrabble Ar', size=(15, 1), justification='center', font=("Verdana", "30", "bold"),text_color='#d7191c')],
-           [sg.Image(r'ScrabbleArBackGround.png',size=(400,350))],
-           [sg.Column(column1), sg.VSeperator(),sg.Column(column2)] ]
+layout = [ [sg.Text('Scrabble Ar', size=(15, 1), justification='center', font=("Verdana", "30", "bold"),text_color='#d7191c', key= '-T7-')],
+           [sg.Image(r'ScrabbleArBackGround.png',size=(400,350), key='-T8-')],
+           [sg.Column(column1, key='-C1-'), sg.VSeparator(key='-VS-'),sg.Column(column2, key='-C2-')] ]
 
 window1 = sg.Window('ScrabbleAr ',layout)
 
@@ -34,15 +34,16 @@ while True:
     event,value=window1.read()
     if event == None:
         break
-    if event == 'Configuraciones Avanzadas':
+    if event == '-ADVANCED_CONFIG-':
         Config.main()
-    if event == 'Conoce mas del juego':
+    if event == '-README-':
         ConoceMas.main()
-    if event == 'Nuestro Ranking':
+    if event == '-RANKING-':
         Ranking.main()
-    if event == 'Registrarse':
+    if event == '-SIGN_UP-':
         Registro.main()
-    if event == 'Iniciar Sesion':
+        window1['-SIGN_UP-'].Update(disabled=True)
+    if event == '-LOGIN-':
         usuario= value['nick']
         password= value['password']
         lista_jugadores= ListaJugadores()
@@ -57,7 +58,6 @@ while True:
                         usuario_valido = True
                         break
                 if usuario_valido:
-                    print ('validacion con exito')
                     window1.close()
                     SelectorNiveles.main()
                 else:

@@ -16,6 +16,9 @@ class Jugador:
 
     def get_puntos(self):
         return self._puntaje
+    
+    def set_score(self, score):
+        self._puntaje = score
 
     def get_nick (self):
         return self._nick

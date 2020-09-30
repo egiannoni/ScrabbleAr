@@ -1,7 +1,5 @@
 import PySimpleGUI as sg
-import GameEasy
-import GameMedium
-import GameHard
+import Game
 
 sg.theme('LightBrown3')
 
@@ -13,22 +11,22 @@ layout = [[sg.Text('Seleccione el nivel que desea jugar',font=("Verdana", "11", 
          ]
 
 
-def main ():
+def main (players_list, player, username, easy_config, medium_config, hard_config):
     """ Principal loop """
     window3 = sg.Window('Scrabble AR', layout)
     event, values = window3.read()
     while True:
         if event == 'Fácil':
             window3.close()
-            GameEasy.main()
+            Game.main(players_list, player, username, easy_config)
             break
         if event == 'Medio':
             window3.close()
-            GameMedium.main()
+            Game.main(players_list, player, username, medium_config)
             break
         if event == 'Difícil':
             window3.close()
-            GameHard.main()
+            Game.main(players_list, player, username, hard_config)
             break
 
 

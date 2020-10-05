@@ -89,7 +89,7 @@ def annotate_button(button, difficulty_level: str):
             text = '-3'
     elif difficulty_level == 'hard':
         if color == '#f46d43': # Salmon
-            text = '-5'
+            text = 'x0'
         elif color == '#abd9e9': # lo que era 'green'
             text = 'x2'
         elif color == '#2c7bb6': # lo que era 'blue'

@@ -7,7 +7,7 @@ ScrabbleAR es un juego basado en el popular juego Scrabble, en el que se intenta
 
 Desarrollado por Eugenia Giannoni, Norberto Ariel Chaar y Victoria Hipatia Olivera Craig. 
 
-En todos los casos se han utilizado imágenes o sonidos, libres o propios, que puedan ser publicados con licencias libres.
+En todos los casos se han utilizado imágenes, libres o propias, que puedan ser publicadas con licencias libres.
 
 Esta versión de Scrabble cuenta con tres niveles de dificultad, cada nivel de dificultad tiene un tablero distinto asociado siendo 
 las acciones de los casilleros especiales distinta en cada uno de ellos. 
